@@ -1,0 +1,6 @@
+framework module UIKitPlus {
+  umbrella header "UIKitPlus-umbrella.h"
+
+  export *
+  module * { export * }
+}

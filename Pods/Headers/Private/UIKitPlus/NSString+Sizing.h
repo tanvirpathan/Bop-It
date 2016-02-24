@@ -1,0 +1,1 @@
+../../../UIKitPlus/Pod/Classes/NSString/NSString+Sizing.h

@@ -1,0 +1,1 @@
+../../../FoundationPlus/Pod/Classes/NSString/NSString+Manipulation.h

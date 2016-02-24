@@ -1,0 +1,6 @@
+framework module FoundationPlus {
+  umbrella header "FoundationPlus-umbrella.h"
+
+  export *
+  module * { export * }
+}

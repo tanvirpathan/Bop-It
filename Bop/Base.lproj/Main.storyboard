@@ -1,49 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="rFe-nk-wpD">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="rFe-nk-wpD">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
     <scenes>
-        <!--Second View Controller-->
-        <scene sceneID="XRP-3F-XNO">
+        <!--Rotate View Controller-->
+        <scene sceneID="HIu-Ox-Cug">
             <objects>
-                <viewController id="PwQ-P1-wyR" customClass="SecondViewController" customModule="Bop" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="FJM-MW-XFS" customClass="RotateViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="rTe-sw-Who"/>
-                        <viewControllerLayoutGuide type="bottom" id="Lgg-bg-7hk"/>
+                        <viewControllerLayoutGuide type="top" id="03s-gb-4wV"/>
+                        <viewControllerLayoutGuide type="bottom" id="qKG-V5-3Jd"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="y96-wE-PuM">
+                    <view key="view" contentMode="scaleToFill" id="13P-Mg-kb5">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AOq-JG-oH9">
-                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
-                                <state key="normal" title="Play Again"/>
-                                <variation key="heightClass=regular-widthClass=regular" fixedFrame="YES">
-                                    <rect key="frame" x="56" y="47" width="71" height="30"/>
-                                </variation>
-                                <connections>
-                                    <segue destination="BYZ-38-t0r" kind="show" animates="NO" id="5EB-hW-3bL"/>
-                                </connections>
-                            </button>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <variation key="default">
-                            <mask key="subviews">
-                                <exclude reference="AOq-JG-oH9"/>
-                            </mask>
-                        </variation>
-                        <variation key="heightClass=regular-widthClass=regular">
-                            <mask key="subviews">
-                                <include reference="AOq-JG-oH9"/>
-                            </mask>
-                        </variation>
                     </view>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dAU-RW-Mnc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JBP-Kv-EQo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="435" y="340.5"/>
+            <point key="canvasLocation" x="819" y="-1856"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -137,7 +115,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="DevTimer" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7u5-Qc-7We">
                                 <rect key="frame" x="52" y="53" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="heightClass=regular" fixedFrame="YES">
                                     <rect key="frame" x="266" y="349" width="42" height="21"/>
@@ -187,9 +165,6 @@
                                 <variation key="heightClass=regular-widthClass=regular" fixedFrame="YES">
                                     <rect key="frame" x="826" y="707" width="95" height="30"/>
                                 </variation>
-                                <connections>
-                                    <segue destination="PwQ-P1-wyR" kind="show" id="zn8-0e-xTu"/>
-                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -221,7 +196,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="562.5" y="-443.25"/>
+            <point key="canvasLocation" x="1198" y="-980"/>
         </scene>
         <!--Show Splash Screen-->
         <scene sceneID="coS-zp-tbM">
@@ -283,7 +258,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="47Y-Lw-tTU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-267" y="-453.75"/>
+            <point key="canvasLocation" x="-135" y="-1010"/>
         </scene>
     </scenes>
     <resources>
@@ -293,7 +268,4 @@
         <image name="button3" width="500" height="500"/>
         <image name="button4" width="500" height="500"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="5EB-hW-3bL"/>
-    </inferredMetricsTieBreakers>
 </document>

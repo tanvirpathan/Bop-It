@@ -1,0 +1,1 @@
+../../../UIKitPlus/Pod/Classes/NSAttributedString/NSAttributedString+Allocation.h
