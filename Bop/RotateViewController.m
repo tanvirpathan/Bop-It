@@ -38,10 +38,15 @@
     circle.contentMode = UIViewContentModeScaleAspectFit;
     circle.clipsToBounds = YES;
     circle.userInteractionEnabled = YES;
-    UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+//    UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
     
-//    UISwipeGestureRecognizer *recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
+    UISwipeGestureRecognizer *recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
+    UISwipeGestureRecognizer *recognizer2 = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
+//    recognizer.direction = UISwipeGestureRecognizerDirectionDown;
+    [recognizer setDirection:(UISwipeGestureRecognizerDirectionRight | UISwipeGestureRecognizerDirectionLeft )];
+    [recognizer2 setDirection:( UISwipeGestureRecognizerDirectionDown | UISwipeGestureRecognizerDirectionUp)];
     [circle addGestureRecognizer:recognizer];
+    [circle addGestureRecognizer:recognizer2];
     [self.view addSubview:circle];
 }
 
@@ -67,16 +72,10 @@
 
 - (void)handleSwipe:(UISwipeGestureRecognizer *)recognizer
 {
-    if (recognizer.direction == UISwipeGestureRecognizerDirectionDown) {
-        [UIView animateWithDuration:3.0
-                              delay:0.0
-                            options:0
-                         animations:^{
-                             circle.transform = CGAffineTransformMakeRotation(M_PI);
-                         }
-                         completion:^(BOOL finished){
-                         }];
-    }
+        [UIView animateWithDuration:0.5f delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+            [circle setTransform:CGAffineTransformRotate(circle.transform, M_PI)];
+        }completion:^(BOOL finished){
+        }];
 }
 /*
 #pragma mark - Navigation
