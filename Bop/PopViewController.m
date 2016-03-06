@@ -15,8 +15,16 @@
     UIControl *circle;
     UIControl *bopit;
     UIControl *pinchit;
-    double score;
     UIImageView *gear;
+    NSTimer *myTimer;
+    
+    UILabel* gameStatus;
+    
+    int counter;
+    int score;
+    int high;
+    int random;
+    
 
 }
 @end
@@ -27,6 +35,7 @@
     
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self buildLayout];
     [self PullIt];
     [self SpinIt];
     [self BopIt];
@@ -34,10 +43,86 @@
     
 }
 
+- (void) buildLayout {
+    
+    //Start Button
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setTitle:@"START" forState:UIControlStateNormal];
+    
+    button.bounds = CGRectMake(0, 0, 140, 44);
+    button.backgroundColor = [UIColor redColor];
+    button.center = CGPointMake(500, 600);
+    
+    [button addTarget:self action:@selector(buttonTouchDown:) forControlEvents:UIControlEventTouchDown];
+    [self.view addSubview:button];
+    
+    //GameStatus
+    gameStatus = [[UILabel alloc] initWithFrame:CGRectMake(500, 150, 200, 200)];
+    gameStatus.text = @"Press start to begin";
+    [self.view addSubview:gameStatus];
+    
+    
+    
+}
+
+- (void)buttonTouchDown:(UIButton *)button{
+    NSLog(@"we here fam");
+    [myTimer invalidate];
+    myTimer = nil;
+    [self randomGen];
+    
+    myTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                     target:self
+                                   selector:@selector(timerAction:)
+                                   userInfo:nil
+                                    repeats:YES];
+   
+}
+
+- (void)timerAction:(NSTimer *)timer {
+    NSLog(@"we here fam 2");
+    gameStatus.text = [NSString stringWithFormat:@"%d",random];
+    if (counter >= 7) {
+        [self gameFailed];
+    }
+    counter++;
+    
+}
+
+- (void) randomGen {
+    random = arc4random_uniform(5);
+    if (random == 0){
+        random++;
+    }
+}
+
+- (void) gameFailed{
+    _score.text = [NSString stringWithFormat:@"New score: %d",score];
+    score =0;
+    [myTimer invalidate];
+    myTimer = nil;
+    
+
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 - (void) PullIt
 {
@@ -136,8 +221,12 @@
         [gear setTransform:CGAffineTransformRotate(gear.transform, M_PI)];
     }completion:^(BOOL finished){
     }];
-    score = score + 1;
-    _score.text = [NSString stringWithFormat:@"%f",score];
+    if (random != 2) {
+        [self gameFailed];
+    }
+    score++;
+    counter = 0;
+    [self randomGen];
 }
 
 - (void)handlePan:(UIPanGestureRecognizer *)recognizer
@@ -151,12 +240,17 @@
     [recognizer setTranslation:CGPointMake(0, 0) inView:self.view];
     if (((recognizer.view.center.x + translation.x) >= 300) || (recognizer.view.center.y + translation.y) >= 300) {
         passedBoundaries = YES;
+
     }
    
     if(recognizer.state == UIGestureRecognizerStateEnded) {
         if (passedBoundaries == YES){
+            if (random != 1) {
+                [self gameFailed];
+            }
             score++;
-            _score.text = [NSString stringWithFormat:@"%f",score];
+            counter = 0;
+            [self randomGen];
             passedBoundaries = NO;
         }
         CGPoint velocity = [recognizer velocityInView:self.view];
@@ -170,37 +264,41 @@
 
 - (void)handleTap:(UITapGestureRecognizer *)recognizer
 {
+    if (random != 3) {
+        [self gameFailed];
+    }
+    score++;
+    counter = 0;
+    [self randomGen];
+    
     bopit.userInteractionEnabled = NO;
     POPSpringAnimation *positionAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
     positionAnimation.velocity = @800;
-    positionAnimation.springBounciness = 30.f;
+    positionAnimation.springBounciness = 15.f;
     [positionAnimation setCompletionBlock:^(POPAnimation *animation, BOOL finished) {
         bopit.userInteractionEnabled = YES;
     }];
     [bopit.layer pop_addAnimation:positionAnimation forKey:@"positionAnimation"];
     positionAnimation.delegate = self;
-    score = score + 1;
-    _score.text = [NSString stringWithFormat:@"%f",score];
+    
 }
 
 - (void)handlePinch:(UIPinchGestureRecognizer *)recognizer{
     
-    BOOL didStreched = YES;
     POPSpringAnimation *scaleAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
-    scaleAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(1.4, 1.4)];
-    scaleAnimation.springBounciness = 20.f;
+    scaleAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(2.0, 2.0)];
     [pinchit.layer pop_addAnimation:scaleAnimation forKey:@"scaleAnimation"];
-    
     if(recognizer.state == UIGestureRecognizerStateEnded) {
-        if (didStreched == YES){
-            score++;
-            _score.text = [NSString stringWithFormat:@"%f",score];
-            didStreched = NO;
+        
+        if (random != 4) {
+            [self gameFailed];
         }
-        //[NSThread sleepForTimeInterval: 0.25];
+        score++;
+        counter = 0;
+        [self randomGen];
         scaleAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(1, 1)];
         scaleAnimation.springBounciness = 20.f;
-        [pinchit.layer pop_addAnimation:scaleAnimation forKey:@"scaleAnimation"];
+        
     }
     
 }

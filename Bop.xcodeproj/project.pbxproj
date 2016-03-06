@@ -19,6 +19,7 @@
 		B90C496E1C5CEF2000DA64B2 /* BopUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90C496D1C5CEF2000DA64B2 /* BopUITests.swift */; };
 		B90C49801C5E719600DA64B2 /* ShowSplashScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90C497F1C5E719600DA64B2 /* ShowSplashScreen.swift */; };
 		B90C49821C5E7A6A00DA64B2 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90C49811C5E7A6A00DA64B2 /* SecondViewController.swift */; };
+		B935E4E51C8C720F00B0C08C /* IntroView.m in Sources */ = {isa = PBXBuildFile; fileRef = B935E4E41C8C720F00B0C08C /* IntroView.m */; };
 		BD1348F0007A0B0435475759 /* Pods_Bop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68940ECCD3CAFD9BF0BA2894 /* Pods_Bop.framework */; };
 /* End PBXBuildFile section */
 
@@ -63,6 +64,8 @@
 		B90C496F1C5CEF2000DA64B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B90C497F1C5E719600DA64B2 /* ShowSplashScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowSplashScreen.swift; sourceTree = "<group>"; };
 		B90C49811C5E7A6A00DA64B2 /* SecondViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
+		B935E4E31C8C720F00B0C08C /* IntroView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroView.h; sourceTree = "<group>"; };
+		B935E4E41C8C720F00B0C08C /* IntroView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroView.m; sourceTree = "<group>"; };
 		C4FCD835B2C3A9960DD10A8F /* Pods-Bop.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bop.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Bop/Pods-Bop.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -148,6 +151,8 @@
 				772075CC1C7D52CF00604817 /* Bop-Bridging-Header.h */,
 				772075D01C7D5EF200604817 /* RotateViewController.h */,
 				772075D11C7D5EF200604817 /* RotateViewController.m */,
+				B935E4E31C8C720F00B0C08C /* IntroView.h */,
+				B935E4E41C8C720F00B0C08C /* IntroView.m */,
 			);
 			path = Bop;
 			sourceTree = "<group>";
@@ -358,6 +363,7 @@
 				772075CF1C7D52CF00604817 /* PopViewController.m in Sources */,
 				B90C49501C5CEF2000DA64B2 /* ViewController.swift in Sources */,
 				772075D21C7D5EF200604817 /* RotateViewController.m in Sources */,
+				B935E4E51C8C720F00B0C08C /* IntroView.m in Sources */,
 				B90C494E1C5CEF2000DA64B2 /* AppDelegate.swift in Sources */,
 				B90C49801C5E719600DA64B2 /* ShowSplashScreen.swift in Sources */,
 			);
