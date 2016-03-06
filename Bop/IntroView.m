@@ -51,7 +51,7 @@
     layerScaleAnimation.springBounciness = 15.f;
     [button.layer pop_addAnimation:layerScaleAnimation forKey:@"layerScaleAnimation"];
     
-//    [self performSegueWithIdentifier:@"newGameSegue" sender:self];
+    [self performSegueWithIdentifier:@"newGameSegue" sender:self];
     
 }
 - (void)handleHighscore:(UIButton *)button{

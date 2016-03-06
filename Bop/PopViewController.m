@@ -12,13 +12,16 @@
 
 @interface PopViewController () <POPAnimationDelegate>
 {
-    UIControl *circle;
-    UIControl *bopit;
-    UIControl *pinchit;
+    UIImageView *circle;
+    UIImageView *bopit;
+    UIImageView *pinchit;
     UIImageView *gear;
     NSTimer *myTimer;
     
-    UILabel* gameStatus;
+    UIImageView* gameStatus;
+    
+    
+    
     
     int counter;
     int score;
@@ -45,6 +48,13 @@
 
 - (void) buildLayout {
     
+    //Background Image
+    UIImage *backgroundImage = [UIImage imageNamed:@"backgroundGameScreen.png"];
+    UIImageView *backgroundImageView=[[UIImageView alloc]initWithFrame:self.view.frame];
+    backgroundImageView.image=backgroundImage;
+    [self.view insertSubview:backgroundImageView atIndex:0];
+    
+    
     //Start Button
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setTitle:@"START" forState:UIControlStateNormal];
@@ -57,8 +67,8 @@
     [self.view addSubview:button];
     
     //GameStatus
-    gameStatus = [[UILabel alloc] initWithFrame:CGRectMake(500, 150, 200, 200)];
-    gameStatus.text = @"Press start to begin";
+    gameStatus=[[UIImageView alloc]initWithFrame:self.view.frame];
+    //gameStatus.text = @"Press start to begin";
     [self.view addSubview:gameStatus];
     
     
@@ -81,7 +91,31 @@
 
 - (void)timerAction:(NSTimer *)timer {
     NSLog(@"we here fam 2");
-    gameStatus.text = [NSString stringWithFormat:@"%d",random];
+    //gameStatus.text = [NSString stringWithFormat:@"%d",random];
+    
+    UIImage *bopitText = [UIImage imageNamed:@"bopitText.png"];
+    UIImage *pullitText = [UIImage imageNamed:@"pullitText.png"];
+    UIImage *strechitText = [UIImage imageNamed:@"strechitText.png"];
+    UIImage *spinitText = [UIImage imageNamed:@"spinitText.png"];
+    
+    
+    
+    
+    
+    
+    if (random == 1) {
+        gameStatus.image = pullitText;
+    }
+    else if (random == 2) {
+        gameStatus.image = spinitText;
+    }
+    else if (random == 3) {
+        gameStatus.image = bopitText;
+    }
+    else if (random == 4) {
+        gameStatus.image = strechitText;
+    }
+    
     if (counter >= 7) {
         [self gameFailed];
     }
@@ -127,16 +161,18 @@
 - (void) PullIt
 {
     
-    circle = [[UIControl alloc] initWithFrame:CGRectMake(95, 95, 100, 100)];
+    circle = [[UIImageView alloc] initWithFrame:CGRectMake(90, 90, 130, 130)];
+    
 //    [circle centerInWidth:[[UIScreen mainScreen] bounds].size.width];
 //    [circle centerInHeight:[[UIScreen mainScreen] bounds].size.height];
 //        [circle alignRightToXPosition:[[UIScreen mainScreen] bounds].size.width - 10.0f];
 //        [circle setYPosition:10.0f];
-    circle.backgroundColor = [UIColor blueColor];
-    circle.layer.cornerRadius = 50.0f;
+    [circle setImage:[UIImage imageNamed:@"pullit"]];
+    circle.contentMode = UIViewContentModeScaleAspectFit;
+    circle.userInteractionEnabled = YES;
     circle.clipsToBounds = YES;
     
-    [circle addTarget:self action:@selector(touchDown:) forControlEvents:UIControlEventTouchDown];
+   // [circle addTarget:self action:@selector(touchDown:) forControlEvents:UIControlEventTouchDown];
 
     UIPanGestureRecognizer *recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self
                                                                                  action:@selector(handlePan:)];
@@ -146,10 +182,10 @@
 
 - (void) SpinIt
 {
-    gear = [[UIImageView alloc] initWithFrame:CGRectMake(750, 80, 150, 150)];
+    gear = [[UIImageView alloc] initWithFrame:CGRectMake(90, 500, 170, 170)];
 //    [circle centerInWidth:[[UIScreen mainScreen] bounds].size.width];
 //    [circle centerInHeight:[[UIScreen mainScreen] bounds].size.height];
-    [gear setImage:[UIImage imageNamed:@"gear"]];
+    [gear setImage:[UIImage imageNamed:@"gear-1"]];
     gear.contentMode = UIViewContentModeScaleAspectFit;
     gear.clipsToBounds = YES;
     gear.userInteractionEnabled = YES;
@@ -166,12 +202,14 @@
 }
 
 - (void) BopIt{
-    bopit = [[UIControl alloc] initWithFrame:CGRectMake(95, 450, 150, 150)];
-    bopit.backgroundColor = [UIColor blueColor];
-    bopit.layer.cornerRadius = 10.0f;
+    bopit = [[UIImageView alloc] initWithFrame:CGRectMake(790, 90, 150, 150)];
+    //bopit.backgroundColor = [UIColor blueColor];
+    //bopit.layer.cornerRadius = 10.0f;
+    [bopit setImage:[UIImage imageNamed:@"bop-it"]];
+    bopit.contentMode = UIViewContentModeScaleAspectFit;
+    bopit.userInteractionEnabled = YES;
     bopit.clipsToBounds = YES;
-    
-    [bopit addTarget:self action:@selector(touchDown:) forControlEvents:UIControlEventTouchDown];
+   // [bopit addTarget:self action:@selector(touchDown:) forControlEvents:UIControlEventTouchDown];
     
     UITapGestureRecognizer *recognizer4 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
     [bopit addGestureRecognizer:recognizer4];
@@ -179,12 +217,16 @@
 }
 
 - (void) PinchIt{
-    pinchit = [[UIControl alloc] initWithFrame:CGRectMake(750, 450, 150, 150)];
-    pinchit.backgroundColor = [UIColor blueColor];
-    pinchit.layer.cornerRadius = 25.0f;
+    pinchit = [[UIImageView alloc] initWithFrame:CGRectMake(790, 500, 150, 150)];
+//    pinchit.backgroundColor = [UIColor blueColor];
+    
+    [pinchit setImage:[UIImage imageNamed:@"strech-it"]];
+    pinchit.contentMode = UIViewContentModeScaleAspectFit;
+   pinchit.userInteractionEnabled = YES;
+//    pinchit.layer.cornerRadius = 25.0f;
     pinchit.clipsToBounds = YES;
     
-    [pinchit addTarget:self action:@selector(touchDown:) forControlEvents:UIControlEventTouchDown];
+    //[pinchit addTarget:self action:@selector(touchDown:) forControlEvents:UIControlEventTouchDown];
     
     UIPinchGestureRecognizer *recognizer5 = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinch:)];
     [pinchit addGestureRecognizer:recognizer5];
@@ -286,7 +328,9 @@
 - (void)handlePinch:(UIPinchGestureRecognizer *)recognizer{
     
     POPSpringAnimation *scaleAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
-    scaleAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(2.0, 2.0)];
+    scaleAnimation.velocity = [NSValue valueWithCGSize:CGSizeMake(2.f, 2.f)];
+    scaleAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(1.f, 1.f)];
+    scaleAnimation.springBounciness = 15.f;
     [pinchit.layer pop_addAnimation:scaleAnimation forKey:@"scaleAnimation"];
     if(recognizer.state == UIGestureRecognizerStateEnded) {
         
@@ -296,8 +340,7 @@
         score++;
         counter = 0;
         [self randomGen];
-        scaleAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(1, 1)];
-        scaleAnimation.springBounciness = 20.f;
+        
         
     }
     
