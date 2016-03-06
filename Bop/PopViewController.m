@@ -56,13 +56,10 @@
     
     
     //Start Button
+    
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setTitle:@"START" forState:UIControlStateNormal];
-    
-    button.bounds = CGRectMake(0, 0, 140, 44);
-    button.backgroundColor = [UIColor redColor];
-    button.center = CGPointMake(500, 600);
-    
+    button.frame = CGRectMake(390, 570, 250, 50);
+    [button setBackgroundImage:[UIImage imageNamed:@"start.png"] forState:UIControlStateNormal];
     [button addTarget:self action:@selector(buttonTouchDown:) forControlEvents:UIControlEventTouchDown];
     [self.view addSubview:button];
     
@@ -77,6 +74,13 @@
 
 - (void)buttonTouchDown:(UIButton *)button{
     NSLog(@"we here fam");
+    
+    POPSpringAnimation *layerScaleAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
+    layerScaleAnimation.velocity = [NSValue valueWithCGSize:CGSizeMake(2.f, 2.f)];
+    layerScaleAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(1.f, 1.f)];
+    layerScaleAnimation.springBounciness = 15.f;
+    [button.layer pop_addAnimation:layerScaleAnimation forKey:@"layerScaleAnimation"];
+    
     [myTimer invalidate];
     myTimer = nil;
     [self randomGen];
@@ -131,8 +135,11 @@
 }
 
 - (void) gameFailed{
+    UIImage *gameOverText = [UIImage imageNamed:@"gameOver.png"];
+    gameStatus.image = gameOverText;
+    
+    score = 0;
     _score.text = [NSString stringWithFormat:@"New score: %d",score];
-    score =0;
     [myTimer invalidate];
     myTimer = nil;
     
@@ -161,7 +168,7 @@
 - (void) PullIt
 {
     
-    circle = [[UIImageView alloc] initWithFrame:CGRectMake(90, 90, 130, 130)];
+    circle = [[UIImageView alloc] initWithFrame:CGRectMake(90, 90, 150, 150)];
     
 //    [circle centerInWidth:[[UIScreen mainScreen] bounds].size.width];
 //    [circle centerInHeight:[[UIScreen mainScreen] bounds].size.height];
@@ -266,7 +273,9 @@
     if (random != 2) {
         [self gameFailed];
     }
+    
     score++;
+    _score.text = [NSString stringWithFormat:@"New score: %d",score];
     counter = 0;
     [self randomGen];
 }
@@ -291,6 +300,7 @@
                 [self gameFailed];
             }
             score++;
+            _score.text = [NSString stringWithFormat:@"New score: %d",score];
             counter = 0;
             [self randomGen];
             passedBoundaries = NO;
@@ -310,6 +320,7 @@
         [self gameFailed];
     }
     score++;
+    _score.text = [NSString stringWithFormat:@"New score: %d",score];
     counter = 0;
     [self randomGen];
     
@@ -338,10 +349,9 @@
             [self gameFailed];
         }
         score++;
+        _score.text = [NSString stringWithFormat:@"New score: %d",score];
         counter = 0;
         [self randomGen];
-        
-        
     }
     
 }
