@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface PopViewController : UIViewController
-@property (weak, nonatomic) IBOutlet UILabel *score;
+
 
 @end
