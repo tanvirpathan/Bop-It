@@ -28,9 +28,11 @@
     NSUserDefaults *defaults;
     NSInteger high;
     
+    UIButton *startButton;
+    
     int counter;
     int score;
-    //int high;
+    int speed;
     int random;
     
 
@@ -65,7 +67,7 @@
 - (void) buildLayout {
     defaults = [NSUserDefaults standardUserDefaults];
     high = [defaults integerForKey:@"HighScore"];
-    
+    speed = 6;
     
     //Background Image
     UIImage *backgroundImage = [UIImage imageNamed:@"backgroundGameScreen.png"];
@@ -74,11 +76,11 @@
     [self.view insertSubview:backgroundImageView atIndex:0];
     
     //Current Score Label
-    currentScoreLabel=[[UILabel alloc]initWithFrame:CGRectMake(70, 660, 300, 200)];//Set frame of label in your viewcontroller.
-    [currentScoreLabel setText:@"CURRENT SCORE:"];//Set text in label.
+    currentScoreLabel=[[UILabel alloc]initWithFrame:CGRectMake(55, 485, 485, 200)];//Set frame of label in your viewcontroller.
+    [currentScoreLabel setText:@"GET READY"];//Set text in label.
     currentScoreLabel.font = [UIFont fontWithName:@"HelveticaNeue-BoldItalic" size:28];
     [currentScoreLabel setTextColor:[UIColor whiteColor]];//Set text color in label.
-    //[self.view addSubview:currentScoreLabel];//Add it to the view of your choice.
+    [self.view addSubview:currentScoreLabel];//Add it to the view of your choice.
     
     //High Score Label
     HighScoreLabel=[[UILabel alloc]initWithFrame:CGRectMake(750, 25, 300, 100)];//Set frame of label in your viewcontroller.
@@ -101,11 +103,12 @@
     
     //Start Button
     
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(750, 690, 250, 50);
-    [button setBackgroundImage:[UIImage imageNamed:@"start.png"] forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(buttonTouchDown:) forControlEvents:UIControlEventTouchDown];
-    [self.view addSubview:button];
+    startButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    startButton.frame = CGRectMake(750, 690, 250, 50);
+
+    [startButton setBackgroundImage:[UIImage imageNamed:@"start.png"] forState:UIControlStateNormal];
+    [startButton addTarget:self action:@selector(buttonTouchDown:) forControlEvents:UIControlEventTouchDown];
+    [self.view addSubview:startButton];
     
     //GameStatus
     gameStatus=[[UIImageView alloc]initWithFrame:self.view.frame];
@@ -119,7 +122,7 @@
 
 - (void)buttonTouchDown:(UIButton *)button{
     NSLog(@"we here fam");
-    
+    startButton.userInteractionEnabled = NO;
     POPSpringAnimation *layerScaleAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
     layerScaleAnimation.velocity = [NSValue valueWithCGSize:CGSizeMake(2.f, 2.f)];
     layerScaleAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(1.f, 1.f)];
@@ -127,6 +130,7 @@
     [button.layer pop_addAnimation:layerScaleAnimation forKey:@"layerScaleAnimation"];
     score = 0;
     currentScoreCounter.text = @"0";
+    currentScoreLabel.text = @"LETS START EASY";
     [myTimer invalidate];
     [self randomGen];
     //myTimer = nil;
@@ -173,7 +177,30 @@
         gameStatus.image = flickitText;
     }
     
-    if (counter >= 7) {
+    
+    if (score == 10) {
+        currentScoreLabel.text = @"KEEP IT GOING";
+        speed = 5;
+    }
+    if (score == 20) {
+        currentScoreLabel.text = @"IT'S GETTING FASTER!";
+        speed = 4;
+    }
+    if (score == 35) {
+        currentScoreLabel.text = @"WOW!";
+        speed = 3;
+    }
+    if (score == 50) {
+        currentScoreLabel.text = @"ON FIREEEE";
+        speed = 2;
+    }
+    if (score == 75) {
+        currentScoreLabel.text = @"LEGENDARY";
+        speed = 1;
+    }
+    
+    
+    if (counter >= speed) {
         [self gameFailed];
     }
     counter++;
@@ -188,6 +215,8 @@
 }
 
 - (void) gameFailed{
+    currentScoreLabel.text = @"SO CLOSE!";
+    startButton.userInteractionEnabled = YES;
     UIImage *gameOverText = [UIImage imageNamed:@"gameOver.png"];
     gameStatus.image = gameOverText;
     
