@@ -12,22 +12,23 @@
 
 @interface PopViewController () <POPAnimationDelegate>
 {
+    //Game buttons
     UIImageView *circle;
     UIImageView *bopit;
     UIImageView *pinchit;
     UIImageView *gear;
     UIImageView *flick;
+    
+    //Timer
     NSTimer *myTimer;
     
     UIImageView* gameStatus;
     UIImageView* overlay;
-    
     UILabel* currentScoreLabel;
     UILabel* HighScoreLabel;
     UILabel* currentScoreCounter;
     NSUserDefaults *defaults;
     NSInteger high;
-    
     UIButton *startButton;
     
     int counter;
@@ -43,28 +44,10 @@
 
 - (void)viewDidLoad {
     
-    NSURL *BoingURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"Cartoon_Boing" ofType:@"wav"]];
-    AudioServicesCreateSystemSoundID((__bridge CFURLRef)BoingURL, &BoingSoundID);
-    NSURL *SlideWhistleURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"Slide_Whistle" ofType:@"wav"]];
-    AudioServicesCreateSystemSoundID((__bridge CFURLRef)SlideWhistleURL, &SlideWhistleID);
-    NSURL *GearURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"gear" ofType:@"mp3"]];
-    AudioServicesCreateSystemSoundID((__bridge CFURLRef)GearURL, &GearID);
-    NSURL *StretchURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"stretch" ofType:@"mp3"]];
-    AudioServicesCreateSystemSoundID((__bridge CFURLRef)StretchURL, &StretchID);
-    NSURL *BopitURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"bopit" ofType:@"wav"]];
-    AudioServicesCreateSystemSoundID((__bridge CFURLRef)BopitURL, &BopitID);
-    NSURL *FailedURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"failed" ofType:@"wav"]];
-    AudioServicesCreateSystemSoundID((__bridge CFURLRef)FailedURL, &FailedID);
-    
-    
-    NSString *sound = [[NSBundle mainBundle]pathForResource:@"backgroundbeat" ofType:@"mp3"];
-    audioplayer = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL fileURLWithPath:sound] error:NULL];
-    audioplayer.delegate = self;
-    audioplayer.numberOfLoops = -1;
-    audioplayer.volume = 0.3;
-    [super viewDidLoad];
+   
     // Do any additional setup after loading the view.
-    
+    [super viewDidLoad];
+    [self sounds];
     [self buildLayout];
     [self PullIt];
     [self Flickit];
@@ -74,15 +57,26 @@
     [self overlay];
     
 }
-- (void) overlay{
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark -
+#pragma mark Build Game Layout
+
+- (void) overlay {
+    
     UIImage *overlaypic = [UIImage imageNamed:@"overlay.png"];
     overlay=[[UIImageView alloc]initWithFrame:self.view.frame];
     overlay.image = overlaypic;
     [self.view addSubview:overlay];
-
 }
 
 - (void) buildLayout {
+    
+    //Saving Highscores
     defaults = [NSUserDefaults standardUserDefaults];
     high = [defaults integerForKey:@"HighScore"];
     speed = 6;
@@ -94,36 +88,29 @@
     [self.view insertSubview:backgroundImageView atIndex:0];
     
     //Current Score Label
-    currentScoreLabel=[[UILabel alloc]initWithFrame:CGRectMake(55, 485, 485, 200)];//Set frame of label in your viewcontroller.
-    [currentScoreLabel setText:@"GET READY"];//Set text in label.
+    currentScoreLabel=[[UILabel alloc]initWithFrame:CGRectMake(55, 485, 485, 200)];
+    [currentScoreLabel setText:@"GET READY"];
     currentScoreLabel.font = [UIFont fontWithName:@"HelveticaNeue-BoldItalic" size:28];
-    [currentScoreLabel setTextColor:[UIColor whiteColor]];//Set text color in label.
-    [self.view addSubview:currentScoreLabel];//Add it to the view of your choice.
+    [currentScoreLabel setTextColor:[UIColor whiteColor]];
+    [self.view addSubview:currentScoreLabel];
     
     //High Score Label
-    HighScoreLabel=[[UILabel alloc]initWithFrame:CGRectMake(750, 25, 300, 100)];//Set frame of label in your viewcontroller.
-    HighScoreLabel.text = [NSString stringWithFormat:@"HIGHSCORE: %ld",(long)high];//Set text in label.
+    HighScoreLabel=[[UILabel alloc]initWithFrame:CGRectMake(750, 25, 300, 100)];
+    HighScoreLabel.text = [NSString stringWithFormat:@"HIGHSCORE: %ld",(long)high];
     HighScoreLabel.font = [UIFont fontWithName:@"HelveticaNeue-BoldItalic" size:28];
-    [HighScoreLabel setTextColor:[UIColor whiteColor]];//Set text color in label.
-    [self.view addSubview:HighScoreLabel];//Add it to the view of your choice.
+    [HighScoreLabel setTextColor:[UIColor whiteColor]];
+    [self.view addSubview:HighScoreLabel];
     
     //Current Score Counter Label
-    currentScoreCounter=[[UILabel alloc]initWithFrame:CGRectMake(55, 580, 300, 200)];//Set frame of label in your viewcontroller.
+    currentScoreCounter=[[UILabel alloc]initWithFrame:CGRectMake(55, 580, 300, 200)];
     [currentScoreCounter setText:@"0"];//Set text in label.
     currentScoreCounter.font = [UIFont fontWithName:@"HelveticaNeue-BoldItalic" size:120];
-    [currentScoreCounter setTextColor:[UIColor whiteColor]];//Set text color in label.
-    [self.view addSubview:currentScoreCounter];//Add it to the view of your choice.
-    
-    
-    
-    
-    
+    [currentScoreCounter setTextColor:[UIColor whiteColor]];
+    [self.view addSubview:currentScoreCounter];
     
     //Start Button
-    
     startButton = [UIButton buttonWithType:UIButtonTypeCustom];
     startButton.frame = CGRectMake(750, 690, 250, 50);
-
     [startButton setBackgroundImage:[UIImage imageNamed:@"start.png"] forState:UIControlStateNormal];
     [startButton addTarget:self action:@selector(buttonTouchDown:) forControlEvents:UIControlEventTouchDown];
     [self.view addSubview:startButton];
@@ -133,54 +120,102 @@
     UIImage *pressStart = [UIImage imageNamed:@"pressStart.png"];
     gameStatus.image = pressStart;
     [self.view addSubview:gameStatus];
+
+}
+
+- (void) Flickit{
     
+    //Make view
+    flick = [[UIImageView alloc] initWithFrame:CGRectMake(350, -38, 230, 230)];
+    [flick setImage:[UIImage imageNamed:@"flickit"]];
+    flick.contentMode = UIViewContentModeScaleAspectFit;
+    flick.clipsToBounds = YES;
+    flick.userInteractionEnabled = YES;
     
+    //Add gesture
+    UISwipeGestureRecognizer *recognizer5 = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleFlick:)];
+    [recognizer5 setDirection:( UISwipeGestureRecognizerDirectionDown)];
+    [flick addGestureRecognizer:recognizer5];
+    [self.view addSubview:flick];
+}
+
+- (void) PullIt {
+    
+    //Make view
+    circle = [[UIImageView alloc] initWithFrame:CGRectMake(479, 625, 120, 110)];
+    [circle setImage:[UIImage imageNamed:@"pullitnew"]];
+    circle.contentMode = UIViewContentModeScaleAspectFit;
+    circle.userInteractionEnabled = YES;
+    circle.clipsToBounds = YES;
+    
+    //Add gesture
+    UIPanGestureRecognizer *recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+    [circle addGestureRecognizer:recognizer];
+    [self.view addSubview:circle];
+}
+
+- (void) SpinIt {
+    
+    //Make view
+    gear = [[UIImageView alloc] initWithFrame:CGRectMake(69, 250, 190, 190)];
+    [gear setImage:[UIImage imageNamed:@"gearnew"]];
+    gear.contentMode = UIViewContentModeScaleAspectFit;
+    gear.clipsToBounds = YES;
+    gear.userInteractionEnabled = YES;
+
+    //Add gesture
+    UISwipeGestureRecognizer *recognizer2 = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
+    UISwipeGestureRecognizer *recognizer3 = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
+    [recognizer2 setDirection:(UISwipeGestureRecognizerDirectionRight | UISwipeGestureRecognizerDirectionLeft )];
+    [recognizer3 setDirection:( UISwipeGestureRecognizerDirectionDown | UISwipeGestureRecognizerDirectionUp)];
+    [gear addGestureRecognizer:recognizer2];
+    [gear addGestureRecognizer:recognizer3];
+    [self.view addSubview:gear];
+}
+
+- (void) BopIt{
+    
+    //Make view
+    bopit = [[UIImageView alloc] initWithFrame:CGRectMake(420, 220, 220, 220)];
+    bopit.contentMode = UIViewContentModeScaleAspectFit;
+    bopit.userInteractionEnabled = YES;
+    bopit.clipsToBounds = YES;
+
+    //Add gesture
+    UITapGestureRecognizer *recognizer4 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+    [bopit addGestureRecognizer:recognizer4];
+    [self.view addSubview:bopit];
+}
+
+- (void) PinchIt{
+    
+    //Make view
+    pinchit = [[UIImageView alloc] initWithFrame:CGRectMake(720, 230, 130, 130)];
+    [pinchit setImage:[UIImage imageNamed:@"pinchitnew"]];
+    pinchit.contentMode = UIViewContentModeScaleAspectFit;
+    pinchit.userInteractionEnabled = YES;
+    pinchit.clipsToBounds = YES;
+    
+    //Add gesture
+    UIPinchGestureRecognizer *recognizer5 = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinch:)];
+    [pinchit addGestureRecognizer:recognizer5];
+    [self.view addSubview:pinchit];
     
 }
 
-- (void)buttonTouchDown:(UIButton *)button{
-    NSLog(@"we here fam");
-    audioplayer.currentTime = 0;
-    [audioplayer play];
-    startButton.userInteractionEnabled = NO;
-    POPSpringAnimation *layerScaleAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
-    layerScaleAnimation.velocity = [NSValue valueWithCGSize:CGSizeMake(2.f, 2.f)];
-    layerScaleAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(1.f, 1.f)];
-    layerScaleAnimation.springBounciness = 15.f;
-    [button.layer pop_addAnimation:layerScaleAnimation forKey:@"layerScaleAnimation"];
-    score = 0;
-    currentScoreCounter.text = @"0";
-    currentScoreLabel.text = @"LETS START EASY";
-    [myTimer invalidate];
-    [self randomGen];
-    //myTimer = nil;
-    
-    
-    myTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
-                                     target:self
-                                   selector:@selector(timerAction:)
-                                   userInfo:nil
-                                    repeats:YES];
-    
-   
-}
+#pragma mark -
+#pragma mark Game Logic and Timer
 
 - (void)timerAction:(NSTimer *)timer {
-    NSLog(@"we here fam 2");
     
-    //gameStatus.text = [NSString stringWithFormat:@"%d",random];
-    
+    //Game prompt
     UIImage *bopitText = [UIImage imageNamed:@"bopitText.png"];
     UIImage *pullitText = [UIImage imageNamed:@"pullitText.png"];
-    UIImage *strechitText = [UIImage imageNamed:@"strechitText.png"];
+    UIImage *stretchitText = [UIImage imageNamed:@"strechitText.png"];
     UIImage *spinitText = [UIImage imageNamed:@"spinitText.png"];
     UIImage *flickitText = [UIImage imageNamed:@"flickitText.png"];
     
-    
-    
-    
-    
-    
+    //Game Logic
     if (random == 1) {
         gameStatus.image = pullitText;
     }
@@ -191,13 +226,14 @@
         gameStatus.image = bopitText;
     }
     else if (random == 4) {
-        gameStatus.image = strechitText;
+        gameStatus.image = stretchitText;
     }
     else if (random == 5) {
         gameStatus.image = flickitText;
     }
     
-    
+    //Speed change based on current user score
+    //Motivation messages
     if (score == 10) {
         currentScoreLabel.text = @"KEEP IT GOING";
         speed = 5;
@@ -219,7 +255,7 @@
         speed = 1;
     }
     
-    
+    //Checks if user is within the game timer
     if (counter >= speed) {
         [self gameFailed];
     }
@@ -227,6 +263,7 @@
     
 }
 
+//Generates random number
 - (void) randomGen {
     random = arc4random_uniform(6);
     if (random == 0){
@@ -235,158 +272,60 @@
 }
 
 - (void) gameFailed{
+    
+    //Stops background music and plays failed game sound
     [audioplayer stop];
     AudioServicesPlaySystemSound(FailedID);
+    
+    //Resets game logic
     currentScoreLabel.text = @"SO CLOSE!";
     startButton.userInteractionEnabled = YES;
     UIImage *gameOverText = [UIImage imageNamed:@"gameOver.png"];
     gameStatus.image = gameOverText;
+    counter = 0;
+    [myTimer invalidate];
     
+    //Checks for highscore and updates accordingly
     if (score >high) {
         [defaults setInteger:score forKey:@"HighScore"];
         [defaults synchronize];
         HighScoreLabel.text = [NSString stringWithFormat:@"HIGHSCORE: %d",score];
     }
     
+}
+#pragma mark -
+#pragma mark Handle User Interactions
+
+- (void)buttonTouchDown:(UIButton *)button{
     
+    //Start background music
+    audioplayer.currentTime = 0;
+    [audioplayer play];
+    startButton.userInteractionEnabled = NO;
     
+    //Animate start button
+    POPSpringAnimation *layerScaleAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
+    layerScaleAnimation.velocity = [NSValue valueWithCGSize:CGSizeMake(2.f, 2.f)];
+    layerScaleAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(1.f, 1.f)];
+    layerScaleAnimation.springBounciness = 15.f;
+    [button.layer pop_addAnimation:layerScaleAnimation forKey:@"layerScaleAnimation"];
     
-    counter = 0;
-    
-    
+    //Set game logic
+    score = 0;
+    currentScoreCounter.text = @"0";
+    currentScoreLabel.text = @"LETS START EASY";
     [myTimer invalidate];
-    //myTimer = nil;
+    [self randomGen];
     
     
-
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-- (void) Flickit{
-    flick = [[UIImageView alloc] initWithFrame:CGRectMake(350, -38, 230, 230)];
-    [flick setImage:[UIImage imageNamed:@"flickit"]];
-    flick.contentMode = UIViewContentModeScaleAspectFit;
-    flick.clipsToBounds = YES;
-    flick.userInteractionEnabled = YES;
-
-    UISwipeGestureRecognizer *recognizer5 = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleFlick:)];
-
-    [recognizer5 setDirection:( UISwipeGestureRecognizerDirectionDown)];
-
-    [flick addGestureRecognizer:recognizer5];
-    [self.view addSubview:flick];
-}
-
-- (void) PullIt
-{
+    myTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                               target:self
+                                             selector:@selector(timerAction:)
+                                             userInfo:nil
+                                              repeats:YES];
     
-    circle = [[UIImageView alloc] initWithFrame:CGRectMake(479, 625, 120, 110)];
-    
-//    [circle centerInWidth:[[UIScreen mainScreen] bounds].size.width];
-//    [circle centerInHeight:[[UIScreen mainScreen] bounds].size.height];
-//        [circle alignRightToXPosition:[[UIScreen mainScreen] bounds].size.width - 10.0f];
-//        [circle setYPosition:10.0f];
-    [circle setImage:[UIImage imageNamed:@"pullitnew"]];
-    circle.contentMode = UIViewContentModeScaleAspectFit;
-    circle.userInteractionEnabled = YES;
-    circle.clipsToBounds = YES;
-    
-   // [circle addTarget:self action:@selector(touchDown:) forControlEvents:UIControlEventTouchDown];
-
-    UIPanGestureRecognizer *recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self
-                                                                                 action:@selector(handlePan:)];
-    [circle addGestureRecognizer:recognizer];
-    [self.view addSubview:circle];
-}
-
-- (void) SpinIt
-{
-    gear = [[UIImageView alloc] initWithFrame:CGRectMake(69, 250, 190, 190)];
-//    [circle centerInWidth:[[UIScreen mainScreen] bounds].size.width];
-//    [circle centerInHeight:[[UIScreen mainScreen] bounds].size.height];
-    [gear setImage:[UIImage imageNamed:@"gearnew"]];
-    gear.contentMode = UIViewContentModeScaleAspectFit;
-    gear.clipsToBounds = YES;
-    gear.userInteractionEnabled = YES;
-    //    UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
-    
-    UISwipeGestureRecognizer *recognizer2 = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
-    UISwipeGestureRecognizer *recognizer3 = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
-    //    recognizer.direction = UISwipeGestureRecognizerDirectionDown;
-    [recognizer2 setDirection:(UISwipeGestureRecognizerDirectionRight | UISwipeGestureRecognizerDirectionLeft )];
-    [recognizer3 setDirection:( UISwipeGestureRecognizerDirectionDown | UISwipeGestureRecognizerDirectionUp)];
-    [gear addGestureRecognizer:recognizer2];
-    [gear addGestureRecognizer:recognizer3];
-    [self.view addSubview:gear];
-}
-
-- (void) BopIt{
-    bopit = [[UIImageView alloc] initWithFrame:CGRectMake(420, 220, 220, 220)];
-    //bopit.backgroundColor = [UIColor blueColor];
-    //bopit.layer.cornerRadius = 10.0f;
-    //[bopit setImage:[UIImage imageNamed:@"bop-it"]];
-    bopit.contentMode = UIViewContentModeScaleAspectFit;
-    bopit.userInteractionEnabled = YES;
-    bopit.clipsToBounds = YES;
-   // [bopit addTarget:self action:@selector(touchDown:) forControlEvents:UIControlEventTouchDown];
-    
-    UITapGestureRecognizer *recognizer4 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
-    [bopit addGestureRecognizer:recognizer4];
-    [self.view addSubview:bopit];
-}
-
-- (void) PinchIt{
-    pinchit = [[UIImageView alloc] initWithFrame:CGRectMake(720, 230, 130, 130)];
-//    pinchit.backgroundColor = [UIColor blueColor];
-    
-    [pinchit setImage:[UIImage imageNamed:@"pinchitnew"]];
-    pinchit.contentMode = UIViewContentModeScaleAspectFit;
-    pinchit.userInteractionEnabled = YES;
-//    pinchit.layer.cornerRadius = 25.0f;
-    pinchit.clipsToBounds = YES;
-    
-    //[pinchit addTarget:self action:@selector(touchDown:) forControlEvents:UIControlEventTouchDown];
-    
-    UIPinchGestureRecognizer *recognizer5 = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinch:)];
-    [pinchit addGestureRecognizer:recognizer5];
-    [self.view addSubview:pinchit];
     
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 - (void)touchDown:(UIControl *)sender {
     [sender.layer pop_removeAllAnimations];
@@ -394,6 +333,7 @@
 
 - (void)handleSwipe:(UISwipeGestureRecognizer *)recognizer
 {
+    //Play sound and animate
     AudioServicesPlaySystemSound(GearID);
     [UIView animateWithDuration:0.5f delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         [gear setTransform:CGAffineTransformRotate(gear.transform, M_PI)];
@@ -403,6 +343,8 @@
         [gear setTransform:CGAffineTransformRotate(gear.transform, -M_PI)];
     }completion:^(BOOL finished){
     }];
+    
+    //Handle game logic
     if (random != 2) {
         [self gameFailed];
     }
@@ -416,6 +358,7 @@
 
 - (void)handleFlick:(UISwipeGestureRecognizer *)recognizer
 {
+    //Play sound and animate
     AudioServicesPlaySystemSound(BoingSoundID);
     [UIView animateWithDuration:0.25f delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         [flick setTransform:CGAffineTransformRotate(flick.transform, M_PI/3)];
@@ -425,10 +368,11 @@
         [flick setTransform:CGAffineTransformRotate(flick.transform, -M_PI/3)];
     }completion:^(BOOL finished){
     }];
+    
+    //Handle game logic
     if (random != 5) {
         [self gameFailed];
     }
-    
     else {
         score++;
         currentScoreCounter.text = [NSString stringWithFormat:@"%d",score];
@@ -439,21 +383,25 @@
 
 - (void)handlePan:(UIPanGestureRecognizer *)recognizer
 {
-    AudioServicesPlaySystemSound(SlideWhistleID);
+    //Track pan movement
     BOOL passedBoundaries = NO;
     CGPoint translation = [recognizer translationInView:self.view];
-
     recognizer.view.center = CGPointMake(recognizer.view.center.x + translation.x,recognizer.view.center.y + translation.y);
-    
-  
     [recognizer setTranslation:CGPointMake(0, 0) inView:self.view];
+    
+    //Check if user panned far enough
     if (((recognizer.view.center.x + translation.x) <= 400) || (recognizer.view.center.y + translation.y) <= 400) {
+        
+        //Play sound
+        AudioServicesPlaySystemSound(SlideWhistleID);
         passedBoundaries = YES;
-
     }
    
+    //Handle animation when user lets go
     if(recognizer.state == UIGestureRecognizerStateEnded) {
         if (passedBoundaries == YES){
+            
+            //Handle game logic
             if (random != 1) {
                 [self gameFailed];
             }
@@ -465,6 +413,8 @@
             }
             passedBoundaries = NO;
         }
+        
+        //Animate back into position
         CGPoint velocity = [recognizer velocityInView:self.view];
         POPSpringAnimation *positionAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPosition];
         positionAnimation.velocity = [NSValue valueWithCGPoint:velocity];
@@ -476,19 +426,8 @@
 
 - (void)handleTap:(UITapGestureRecognizer *)recognizer
 {
+    //Play sound and animate
     AudioServicesPlaySystemSound(BopitID);
-
-    if (random != 3) {
-        [self gameFailed];
-    }
-    
-    else {
-        score++;
-        currentScoreCounter.text = [NSString stringWithFormat:@"%d",score];
-        counter = 0;
-        [self randomGen];
-    }
-    
     bopit.userInteractionEnabled = NO;
     POPSpringAnimation *positionAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
     positionAnimation.velocity = @800;
@@ -499,17 +438,35 @@
     [gameStatus.layer pop_addAnimation:positionAnimation forKey:@"positionAnimation"];
     positionAnimation.delegate = self;
     
+    //Handle game logic
+    if (random != 3) {
+        [self gameFailed];
+    }
+    else {
+        score++;
+        currentScoreCounter.text = [NSString stringWithFormat:@"%d",score];
+        counter = 0;
+        [self randomGen];
+    }
+    
 }
 
 - (void)handlePinch:(UIPinchGestureRecognizer *)recognizer{
     
+    //Animate
     POPSpringAnimation *scaleAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
     scaleAnimation.velocity = [NSValue valueWithCGSize:CGSizeMake(2.f, 2.f)];
     scaleAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(1.f, 1.f)];
     scaleAnimation.springBounciness = 15.f;
     [pinchit.layer pop_addAnimation:scaleAnimation forKey:@"scaleAnimation"];
+    
+    //Check when user lets go
     if(recognizer.state == UIGestureRecognizerStateEnded) {
+        
+        //Play sound
         AudioServicesPlaySystemSound(StretchID);
+        
+        //Check game logic
         if (random != 4) {
             [self gameFailed];
         }
@@ -523,6 +480,39 @@
     
 }
 
-
+- (void) sounds{
+    
+    //Flick it sound
+    NSURL *BoingURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"Cartoon_Boing" ofType:@"wav"]];
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef)BoingURL, &BoingSoundID);
+    
+    //Pull it sound
+    NSURL *SlideWhistleURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"Slide_Whistle" ofType:@"wav"]];
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef)SlideWhistleURL, &SlideWhistleID);
+    
+    //Spin it sound
+    NSURL *GearURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"gear" ofType:@"mp3"]];
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef)GearURL, &GearID);
+    
+    //Stretch it sound
+    NSURL *StretchURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"stretch" ofType:@"mp3"]];
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef)StretchURL, &StretchID);
+    
+    //Bopit sound
+    NSURL *BopitURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"bopit" ofType:@"wav"]];
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef)BopitURL, &BopitID);
+    
+    //Failed sound
+    NSURL *FailedURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"failed" ofType:@"wav"]];
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef)FailedURL, &FailedID);
+    
+    //Background music
+    NSString *sound = [[NSBundle mainBundle]pathForResource:@"backgroundbeat" ofType:@"mp3"];
+    audioplayer = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL fileURLWithPath:sound] error:NULL];
+    audioplayer.delegate = self;
+    audioplayer.numberOfLoops = -1;
+    audioplayer.volume = 0.3;
+    
+}
 
 @end
