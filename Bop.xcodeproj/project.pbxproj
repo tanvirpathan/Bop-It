@@ -20,6 +20,15 @@
 		B90C49801C5E719600DA64B2 /* ShowSplashScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90C497F1C5E719600DA64B2 /* ShowSplashScreen.swift */; };
 		B90C49821C5E7A6A00DA64B2 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90C49811C5E7A6A00DA64B2 /* SecondViewController.swift */; };
 		B935E4E51C8C720F00B0C08C /* IntroView.m in Sources */ = {isa = PBXBuildFile; fileRef = B935E4E41C8C720F00B0C08C /* IntroView.m */; };
+		B9D983E51C95BB290040B0E8 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9D983E41C95BB290040B0E8 /* AudioToolbox.framework */; };
+		B9D983E91C95C5AC0040B0E8 /* Cartoon_Boing.wav in Resources */ = {isa = PBXBuildFile; fileRef = B9D983E81C95C5AC0040B0E8 /* Cartoon_Boing.wav */; };
+		B9D983ED1C95C7DA0040B0E8 /* Slide_Whistle.wav in Resources */ = {isa = PBXBuildFile; fileRef = B9D983EC1C95C7DA0040B0E8 /* Slide_Whistle.wav */; };
+		B9D983EF1C95C8B40040B0E8 /* gear.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B9D983EE1C95C8B40040B0E8 /* gear.mp3 */; };
+		B9D983F51C95D0B70040B0E8 /* stretch.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B9D983F41C95D0B70040B0E8 /* stretch.mp3 */; };
+		B9D983F71C95D8270040B0E8 /* bopit.wav in Resources */ = {isa = PBXBuildFile; fileRef = B9D983F61C95D8270040B0E8 /* bopit.wav */; };
+		B9D983F91C95D99A0040B0E8 /* failed.wav in Resources */ = {isa = PBXBuildFile; fileRef = B9D983F81C95D99A0040B0E8 /* failed.wav */; };
+		B9D983FB1C95DF6D0040B0E8 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9D983FA1C95DF6D0040B0E8 /* AVFoundation.framework */; };
+		B9D983FD1C95E2D70040B0E8 /* backgroundbeat.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B9D983FC1C95E2D70040B0E8 /* backgroundbeat.mp3 */; };
 		BD1348F0007A0B0435475759 /* Pods_Bop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68940ECCD3CAFD9BF0BA2894 /* Pods_Bop.framework */; };
 /* End PBXBuildFile section */
 
@@ -66,6 +75,15 @@
 		B90C49811C5E7A6A00DA64B2 /* SecondViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		B935E4E31C8C720F00B0C08C /* IntroView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroView.h; sourceTree = "<group>"; };
 		B935E4E41C8C720F00B0C08C /* IntroView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroView.m; sourceTree = "<group>"; };
+		B9D983E41C95BB290040B0E8 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		B9D983E81C95C5AC0040B0E8 /* Cartoon_Boing.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Cartoon_Boing.wav; sourceTree = "<group>"; };
+		B9D983EC1C95C7DA0040B0E8 /* Slide_Whistle.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Slide_Whistle.wav; sourceTree = "<group>"; };
+		B9D983EE1C95C8B40040B0E8 /* gear.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = gear.mp3; sourceTree = "<group>"; };
+		B9D983F41C95D0B70040B0E8 /* stretch.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = stretch.mp3; sourceTree = "<group>"; };
+		B9D983F61C95D8270040B0E8 /* bopit.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = bopit.wav; sourceTree = "<group>"; };
+		B9D983F81C95D99A0040B0E8 /* failed.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = failed.wav; sourceTree = "<group>"; };
+		B9D983FA1C95DF6D0040B0E8 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		B9D983FC1C95E2D70040B0E8 /* backgroundbeat.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = backgroundbeat.mp3; sourceTree = "<group>"; };
 		C4FCD835B2C3A9960DD10A8F /* Pods-Bop.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bop.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Bop/Pods-Bop.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -74,6 +92,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9D983FB1C95DF6D0040B0E8 /* AVFoundation.framework in Frameworks */,
+				B9D983E51C95BB290040B0E8 /* AudioToolbox.framework in Frameworks */,
 				BD1348F0007A0B0435475759 /* Pods_Bop.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -107,6 +127,8 @@
 		8738C3A9738C138EACA0D8BC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B9D983FA1C95DF6D0040B0E8 /* AVFoundation.framework */,
+				B9D983E41C95BB290040B0E8 /* AudioToolbox.framework */,
 				68940ECCD3CAFD9BF0BA2894 /* Pods_Bop.framework */,
 			);
 			name = Frameworks;
@@ -138,7 +160,14 @@
 		B90C494C1C5CEF2000DA64B2 /* Bop */ = {
 			isa = PBXGroup;
 			children = (
+				B9D983E81C95C5AC0040B0E8 /* Cartoon_Boing.wav */,
+				B9D983F81C95D99A0040B0E8 /* failed.wav */,
+				B9D983FC1C95E2D70040B0E8 /* backgroundbeat.mp3 */,
+				B9D983EE1C95C8B40040B0E8 /* gear.mp3 */,
+				B9D983F61C95D8270040B0E8 /* bopit.wav */,
+				B9D983F41C95D0B70040B0E8 /* stretch.mp3 */,
 				B90C494D1C5CEF2000DA64B2 /* AppDelegate.swift */,
+				B9D983EC1C95C7DA0040B0E8 /* Slide_Whistle.wav */,
 				B90C494F1C5CEF2000DA64B2 /* ViewController.swift */,
 				772075CD1C7D52CF00604817 /* PopViewController.h */,
 				772075CE1C7D52CF00604817 /* PopViewController.m */,
@@ -283,9 +312,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9D983E91C95C5AC0040B0E8 /* Cartoon_Boing.wav in Resources */,
+				B9D983ED1C95C7DA0040B0E8 /* Slide_Whistle.wav in Resources */,
+				B9D983F71C95D8270040B0E8 /* bopit.wav in Resources */,
+				B9D983F91C95D99A0040B0E8 /* failed.wav in Resources */,
 				B90C49581C5CEF2000DA64B2 /* LaunchScreen.storyboard in Resources */,
+				B9D983FD1C95E2D70040B0E8 /* backgroundbeat.mp3 in Resources */,
 				B90C49551C5CEF2000DA64B2 /* Assets.xcassets in Resources */,
+				B9D983EF1C95C8B40040B0E8 /* gear.mp3 in Resources */,
 				771C3DB21C7D4F9E00B09B2E /* Podfile in Resources */,
+				B9D983F51C95D0B70040B0E8 /* stretch.mp3 in Resources */,
 				B90C49531C5CEF2000DA64B2 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

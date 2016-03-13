@@ -43,7 +43,25 @@
 
 - (void)viewDidLoad {
     
+    NSURL *BoingURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"Cartoon_Boing" ofType:@"wav"]];
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef)BoingURL, &BoingSoundID);
+    NSURL *SlideWhistleURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"Slide_Whistle" ofType:@"wav"]];
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef)SlideWhistleURL, &SlideWhistleID);
+    NSURL *GearURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"gear" ofType:@"mp3"]];
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef)GearURL, &GearID);
+    NSURL *StretchURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"stretch" ofType:@"mp3"]];
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef)StretchURL, &StretchID);
+    NSURL *BopitURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"bopit" ofType:@"wav"]];
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef)BopitURL, &BopitID);
+    NSURL *FailedURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"failed" ofType:@"wav"]];
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef)FailedURL, &FailedID);
     
+    
+    NSString *sound = [[NSBundle mainBundle]pathForResource:@"backgroundbeat" ofType:@"mp3"];
+    audioplayer = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL fileURLWithPath:sound] error:NULL];
+    audioplayer.delegate = self;
+    audioplayer.numberOfLoops = -1;
+    audioplayer.volume = 0.3;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
@@ -122,6 +140,8 @@
 
 - (void)buttonTouchDown:(UIButton *)button{
     NSLog(@"we here fam");
+    audioplayer.currentTime = 0;
+    [audioplayer play];
     startButton.userInteractionEnabled = NO;
     POPSpringAnimation *layerScaleAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
     layerScaleAnimation.velocity = [NSValue valueWithCGSize:CGSizeMake(2.f, 2.f)];
@@ -215,6 +235,8 @@
 }
 
 - (void) gameFailed{
+    [audioplayer stop];
+    AudioServicesPlaySystemSound(FailedID);
     currentScoreLabel.text = @"SO CLOSE!";
     startButton.userInteractionEnabled = YES;
     UIImage *gameOverText = [UIImage imageNamed:@"gameOver.png"];
@@ -372,6 +394,7 @@
 
 - (void)handleSwipe:(UISwipeGestureRecognizer *)recognizer
 {
+    AudioServicesPlaySystemSound(GearID);
     [UIView animateWithDuration:0.5f delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         [gear setTransform:CGAffineTransformRotate(gear.transform, M_PI)];
     }completion:^(BOOL finished){
@@ -393,6 +416,7 @@
 
 - (void)handleFlick:(UISwipeGestureRecognizer *)recognizer
 {
+    AudioServicesPlaySystemSound(BoingSoundID);
     [UIView animateWithDuration:0.25f delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         [flick setTransform:CGAffineTransformRotate(flick.transform, M_PI/3)];
     }completion:^(BOOL finished){
@@ -415,6 +439,7 @@
 
 - (void)handlePan:(UIPanGestureRecognizer *)recognizer
 {
+    AudioServicesPlaySystemSound(SlideWhistleID);
     BOOL passedBoundaries = NO;
     CGPoint translation = [recognizer translationInView:self.view];
 
@@ -451,6 +476,8 @@
 
 - (void)handleTap:(UITapGestureRecognizer *)recognizer
 {
+    AudioServicesPlaySystemSound(BopitID);
+
     if (random != 3) {
         [self gameFailed];
     }
@@ -482,7 +509,7 @@
     scaleAnimation.springBounciness = 15.f;
     [pinchit.layer pop_addAnimation:scaleAnimation forKey:@"scaleAnimation"];
     if(recognizer.state == UIGestureRecognizerStateEnded) {
-        
+        AudioServicesPlaySystemSound(StretchID);
         if (random != 4) {
             [self gameFailed];
         }

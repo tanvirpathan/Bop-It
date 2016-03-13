@@ -7,8 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AudioToolbox/AudioToolbox.h>
+#import <AVFoundation/AVFoundation.h>
+
 
 @interface PopViewController : UIViewController
+{
+    SystemSoundID BoingSoundID;
+    SystemSoundID SlideWhistleID;
+    SystemSoundID GearID;
+    SystemSoundID StretchID;
+    SystemSoundID BopitID;
+    SystemSoundID FailedID;
+    
+    AVAudioPlayer *audioplayer;
+}
+
 
 
 @end

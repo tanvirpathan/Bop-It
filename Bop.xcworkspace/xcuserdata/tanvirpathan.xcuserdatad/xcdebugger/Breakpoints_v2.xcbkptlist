@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Bop/PopViewController.m"
-            timestampString = "479518223.894239"
+            timestampString = "479586295.467448"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "130"
-            endingLineNumber = "130"
+            startingLineNumber = "150"
+            endingLineNumber = "150"
             landmarkName = "-buttonTouchDown:"
             landmarkType = "5">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Bop/PopViewController.m"
-            timestampString = "479518223.894239"
+            timestampString = "479586295.467448"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "134"
-            endingLineNumber = "134"
+            startingLineNumber = "154"
+            endingLineNumber = "154"
             landmarkName = "-buttonTouchDown:"
             landmarkType = "5">
          </BreakpointContent>
