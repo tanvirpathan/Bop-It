@@ -252,7 +252,7 @@
     }
     if (score == 75) {
         currentScoreLabel.text = @"LEGENDARY";
-        speed = 1;
+       
     }
     
     //Checks if user is within the game timer
@@ -282,6 +282,7 @@
     startButton.userInteractionEnabled = YES;
     UIImage *gameOverText = [UIImage imageNamed:@"gameOver.png"];
     gameStatus.image = gameOverText;
+    speed = 6;
     counter = 0;
     [myTimer invalidate];
     
@@ -318,7 +319,7 @@
     [self randomGen];
     
     
-    myTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
+    myTimer = [NSTimer scheduledTimerWithTimeInterval:0.3
                                                target:self
                                              selector:@selector(timerAction:)
                                              userInfo:nil
