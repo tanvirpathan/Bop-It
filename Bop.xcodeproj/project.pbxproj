@@ -25,6 +25,11 @@
 		B9D983F91C95D99A0040B0E8 /* failed.wav in Resources */ = {isa = PBXBuildFile; fileRef = B9D983F81C95D99A0040B0E8 /* failed.wav */; };
 		B9D983FB1C95DF6D0040B0E8 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9D983FA1C95DF6D0040B0E8 /* AVFoundation.framework */; };
 		B9D983FD1C95E2D70040B0E8 /* backgroundbeat.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B9D983FC1C95E2D70040B0E8 /* backgroundbeat.mp3 */; };
+		B9D984661C9D76B90040B0E8 /* RainScene.m in Sources */ = {isa = PBXBuildFile; fileRef = B9D984651C9D76B90040B0E8 /* RainScene.m */; };
+		B9D9847D1C9D8F9E0040B0E8 /* Rain.sks in Resources */ = {isa = PBXBuildFile; fileRef = B9D9847B1C9D8F9E0040B0E8 /* Rain.sks */; };
+		B9D9847E1C9D8F9E0040B0E8 /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = B9D9847C1C9D8F9E0040B0E8 /* spark.png */; };
+		B9D984851C9DD06C0040B0E8 /* Smoke.sks in Resources */ = {isa = PBXBuildFile; fileRef = B9D984841C9DD06C0040B0E8 /* Smoke.sks */; };
+		B9D984881C9DD1010040B0E8 /* SmokeScene.m in Sources */ = {isa = PBXBuildFile; fileRef = B9D984871C9DD1010040B0E8 /* SmokeScene.m */; };
 		BD1348F0007A0B0435475759 /* Pods_Bop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68940ECCD3CAFD9BF0BA2894 /* Pods_Bop.framework */; };
 /* End PBXBuildFile section */
 
@@ -75,6 +80,13 @@
 		B9D983F81C95D99A0040B0E8 /* failed.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = failed.wav; sourceTree = "<group>"; };
 		B9D983FA1C95DF6D0040B0E8 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		B9D983FC1C95E2D70040B0E8 /* backgroundbeat.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = backgroundbeat.mp3; sourceTree = "<group>"; };
+		B9D984641C9D76B90040B0E8 /* RainScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RainScene.h; sourceTree = "<group>"; };
+		B9D984651C9D76B90040B0E8 /* RainScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RainScene.m; sourceTree = "<group>"; };
+		B9D9847B1C9D8F9E0040B0E8 /* Rain.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Rain.sks; sourceTree = "<group>"; };
+		B9D9847C1C9D8F9E0040B0E8 /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
+		B9D984841C9DD06C0040B0E8 /* Smoke.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Smoke.sks; sourceTree = "<group>"; };
+		B9D984861C9DD1010040B0E8 /* SmokeScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmokeScene.h; sourceTree = "<group>"; };
+		B9D984871C9DD1010040B0E8 /* SmokeScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmokeScene.m; sourceTree = "<group>"; };
 		C4FCD835B2C3A9960DD10A8F /* Pods-Bop.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bop.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Bop/Pods-Bop.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -151,6 +163,13 @@
 		B90C494C1C5CEF2000DA64B2 /* Bop */ = {
 			isa = PBXGroup;
 			children = (
+				B9D9847C1C9D8F9E0040B0E8 /* spark.png */,
+				B9D9847B1C9D8F9E0040B0E8 /* Rain.sks */,
+				B9D984841C9DD06C0040B0E8 /* Smoke.sks */,
+				B9D984861C9DD1010040B0E8 /* SmokeScene.h */,
+				B9D984871C9DD1010040B0E8 /* SmokeScene.m */,
+				B9D984641C9D76B90040B0E8 /* RainScene.h */,
+				B9D984651C9D76B90040B0E8 /* RainScene.m */,
 				B9D983FE1C96189A0040B0E8 /* Sounds */,
 				B90C494D1C5CEF2000DA64B2 /* AppDelegate.swift */,
 				772075CD1C7D52CF00604817 /* PopViewController.h */,
@@ -311,11 +330,14 @@
 				B9D983F71C95D8270040B0E8 /* bopit.wav in Resources */,
 				B9D983F91C95D99A0040B0E8 /* failed.wav in Resources */,
 				B90C49581C5CEF2000DA64B2 /* LaunchScreen.storyboard in Resources */,
+				B9D9847E1C9D8F9E0040B0E8 /* spark.png in Resources */,
 				B9D983FD1C95E2D70040B0E8 /* backgroundbeat.mp3 in Resources */,
 				B90C49551C5CEF2000DA64B2 /* Assets.xcassets in Resources */,
 				B9D983EF1C95C8B40040B0E8 /* gear.mp3 in Resources */,
 				771C3DB21C7D4F9E00B09B2E /* Podfile in Resources */,
+				B9D9847D1C9D8F9E0040B0E8 /* Rain.sks in Resources */,
 				B9D983F51C95D0B70040B0E8 /* stretch.mp3 in Resources */,
+				B9D984851C9DD06C0040B0E8 /* Smoke.sks in Resources */,
 				B90C49531C5CEF2000DA64B2 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -391,7 +413,9 @@
 			files = (
 				772075CF1C7D52CF00604817 /* PopViewController.m in Sources */,
 				B935E4E51C8C720F00B0C08C /* IntroView.m in Sources */,
+				B9D984661C9D76B90040B0E8 /* RainScene.m in Sources */,
 				B90C494E1C5CEF2000DA64B2 /* AppDelegate.swift in Sources */,
+				B9D984881C9DD1010040B0E8 /* SmokeScene.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -538,6 +562,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Bop/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = tpathan.Bop;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Bop/Bop-Bridging-Header.h";

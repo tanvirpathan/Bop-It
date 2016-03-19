@@ -9,9 +9,15 @@
 #import "PopViewController.h"
 #import <pop/POP.h>
 #import <UIKitPlus/UIKitPlus.h>
+#import "RainScene.h"
+#import "SmokeScene.h"
+
 
 @interface PopViewController () <POPAnimationDelegate>
 {
+    
+    
+    __weak IBOutlet SKView *particleBackground;
     //Game buttons
     UIImageView *circle;
     UIImageView *bopit;
@@ -31,22 +37,28 @@
     NSInteger high;
     UIButton *startButton;
     
+    
     int counter;
     int score;
     int speed;
     int random;
-    
+
 
 }
 @end
 
 @implementation PopViewController
 
+
 - (void)viewDidLoad {
     
    
     // Do any additional setup after loading the view.
     [super viewDidLoad];
+    
+   
+    
+    
     [self sounds];
     [self buildLayout];
     [self PullIt];
@@ -80,12 +92,22 @@
     defaults = [NSUserDefaults standardUserDefaults];
     high = [defaults integerForKey:@"HighScore"];
     speed = 6;
+
     
     //Background Image
     UIImage *backgroundImage = [UIImage imageNamed:@"backgroundGameScreen.png"];
     UIImageView *backgroundImageView=[[UIImageView alloc]initWithFrame:self.view.frame];
     backgroundImageView.image=backgroundImage;
     [self.view insertSubview:backgroundImageView atIndex:0];
+    
+    //SmokeScene *scene = [SmokeScene sceneWithSize:particleBackground.bounds.size];
+    //RainScene *scene = [RainScene sceneWithSize:particleBackground.bounds.size];
+    SmokeScene *scene = [SmokeScene sceneWithSize:particleBackground.bounds.size];
+    
+    scene.scaleMode = SKSceneScaleModeAspectFill;
+    particleBackground.allowsTransparency = YES;
+    scene.backgroundColor = [UIColor clearColor];
+    [particleBackground presentScene:scene];
     
     //Current Score Label
     currentScoreLabel=[[UILabel alloc]initWithFrame:CGRectMake(55, 485, 485, 200)];
@@ -113,6 +135,7 @@
     startButton.frame = CGRectMake(750, 690, 250, 50);
     [startButton setBackgroundImage:[UIImage imageNamed:@"start.png"] forState:UIControlStateNormal];
     [startButton addTarget:self action:@selector(buttonTouchDown:) forControlEvents:UIControlEventTouchDown];
+    
     [self.view addSubview:startButton];
     
     //GameStatus
@@ -240,14 +263,17 @@
     }
     if (score == 20) {
         currentScoreLabel.text = @"IT'S GETTING FASTER!";
+
         speed = 4;
     }
     if (score == 35) {
         currentScoreLabel.text = @"WOW!";
+
         speed = 3;
     }
     if (score == 50) {
         currentScoreLabel.text = @"ON FIREEEE";
+
         speed = 2;
     }
     if (score == 75) {
@@ -260,7 +286,7 @@
         [self gameFailed];
     }
     counter++;
-    
+   
 }
 
 //Generates random number
@@ -275,7 +301,7 @@
     
     //Stops background music and plays failed game sound
     [audioplayer stop];
-    AudioServicesPlaySystemSound(FailedID);
+    //AudioServicesPlaySystemSound(FailedID);
     
     //Resets game logic
     currentScoreLabel.text = @"SO CLOSE!";
@@ -506,6 +532,8 @@
     //Failed sound
     NSURL *FailedURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"failed" ofType:@"wav"]];
     AudioServicesCreateSystemSoundID((__bridge CFURLRef)FailedURL, &FailedID);
+   
+    
     
     //Background music
     NSString *sound = [[NSBundle mainBundle]pathForResource:@"backgroundbeat" ofType:@"mp3"];

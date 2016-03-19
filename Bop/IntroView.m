@@ -9,8 +9,12 @@
 #import "IntroView.h"
 #import <pop/POP.h>
 #import <UIKitPlus/UIKitPlus.h>
+#import "RainScene.h"
+
 @interface IntroView () <POPAnimationDelegate>
 {
+    
+    __weak IBOutlet SKView *particleBackground;
     
     
 }
@@ -19,6 +23,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    RainScene *scene = [RainScene sceneWithSize:particleBackground.bounds.size];
+    scene.scaleMode = SKSceneScaleModeAspectFill;
+    particleBackground.allowsTransparency = YES;
+    scene.backgroundColor = [UIColor clearColor];
+    
+    [particleBackground presentScene:scene];
     [self buildLayout];
     
 }

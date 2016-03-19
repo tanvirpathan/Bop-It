@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 #import <AudioToolbox/AudioToolbox.h>
 #import <AVFoundation/AVFoundation.h>
-
+@import SpriteKit;
 
 @interface PopViewController : UIViewController
+
 {
     SystemSoundID BoingSoundID;
     SystemSoundID SlideWhistleID;
@@ -19,7 +20,7 @@
     SystemSoundID StretchID;
     SystemSoundID BopitID;
     SystemSoundID FailedID;
-    
+
     AVAudioPlayer *audioplayer;
 }
 
