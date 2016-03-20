@@ -17,7 +17,6 @@
     
     __weak IBOutlet SKView *particleBackground;
     
-    
 }
 @end
 @implementation IntroView

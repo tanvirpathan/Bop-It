@@ -172,17 +172,7 @@
 		B90C494C1C5CEF2000DA64B2 /* Bop */ = {
 			isa = PBXGroup;
 			children = (
-				B9D9847C1C9D8F9E0040B0E8 /* spark.png */,
-				B9450C101C9E14DF00AC773A /* Firefly.sks */,
-				B9450C141C9E157700AC773A /* Firefly.h */,
-				B9450C171C9E1A6700AC773A /* spark.png */,
-				B9450C151C9E157700AC773A /* Firefly.m */,
-				B9D9847B1C9D8F9E0040B0E8 /* Rain.sks */,
-				B9D984841C9DD06C0040B0E8 /* Smoke.sks */,
-				B9D984861C9DD1010040B0E8 /* SmokeScene.h */,
-				B9D984871C9DD1010040B0E8 /* SmokeScene.m */,
-				B9D984641C9D76B90040B0E8 /* RainScene.h */,
-				B9D984651C9D76B90040B0E8 /* RainScene.m */,
+				B9450C191C9EE2AA00AC773A /* Animations */,
 				B9D983FE1C96189A0040B0E8 /* Sounds */,
 				B90C494D1C5CEF2000DA64B2 /* AppDelegate.swift */,
 				772075CD1C7D52CF00604817 /* PopViewController.h */,
@@ -214,6 +204,24 @@
 				B90C496F1C5CEF2000DA64B2 /* Info.plist */,
 			);
 			path = BopUITests;
+			sourceTree = "<group>";
+		};
+		B9450C191C9EE2AA00AC773A /* Animations */ = {
+			isa = PBXGroup;
+			children = (
+				B9D9847C1C9D8F9E0040B0E8 /* spark.png */,
+				B9450C101C9E14DF00AC773A /* Firefly.sks */,
+				B9450C141C9E157700AC773A /* Firefly.h */,
+				B9450C171C9E1A6700AC773A /* spark.png */,
+				B9450C151C9E157700AC773A /* Firefly.m */,
+				B9D9847B1C9D8F9E0040B0E8 /* Rain.sks */,
+				B9D984841C9DD06C0040B0E8 /* Smoke.sks */,
+				B9D984861C9DD1010040B0E8 /* SmokeScene.h */,
+				B9D984871C9DD1010040B0E8 /* SmokeScene.m */,
+				B9D984641C9D76B90040B0E8 /* RainScene.h */,
+				B9D984651C9D76B90040B0E8 /* RainScene.m */,
+			);
+			name = Animations;
 			sourceTree = "<group>";
 		};
 		B9D983FE1C96189A0040B0E8 /* Sounds */ = {

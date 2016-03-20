@@ -21,7 +21,7 @@
     //__weak IBOutlet SKView *particleBackground;
     //Game buttons
     
-    
+    BOOL isGameOver;
     __weak IBOutlet SKView *particleBackground;
     UIImageView *circle;
     UIImageView *bopit;
@@ -40,6 +40,12 @@
     NSUserDefaults *defaults;
     NSInteger high;
     UIButton *startButton;
+    
+    UIImage *bopitText;
+    UIImage *pullitText;
+    UIImage *stretchitText;
+    UIImage *spinitText;
+    UIImage *flickitText;
     
     
     int counter;
@@ -144,6 +150,12 @@
     [self.view addSubview:startButton];
     
     //GameStatus
+    bopitText = [UIImage imageNamed:@"bopitText.png"];
+    pullitText = [UIImage imageNamed:@"pullitText.png"];
+    stretchitText = [UIImage imageNamed:@"strechitText.png"];
+    spinitText = [UIImage imageNamed:@"spinitText.png"];
+    flickitText = [UIImage imageNamed:@"flickitText.png"];
+    
     gameStatus=[[UIImageView alloc]initWithFrame:self.view.frame];
     UIImage *pressStart = [UIImage imageNamed:@"pressStart.png"];
     gameStatus.image = pressStart;
@@ -237,28 +249,9 @@
 - (void)timerAction:(NSTimer *)timer {
     
     //Game prompt
-    UIImage *bopitText = [UIImage imageNamed:@"bopitText.png"];
-    UIImage *pullitText = [UIImage imageNamed:@"pullitText.png"];
-    UIImage *stretchitText = [UIImage imageNamed:@"strechitText.png"];
-    UIImage *spinitText = [UIImage imageNamed:@"spinitText.png"];
-    UIImage *flickitText = [UIImage imageNamed:@"flickitText.png"];
+
     
-    //Game Logic
-    if (random == 1) {
-        gameStatus.image = pullitText;
-    }
-    else if (random == 2) {
-        gameStatus.image = spinitText;
-    }
-    else if (random == 3) {
-        gameStatus.image = bopitText;
-    }
-    else if (random == 4) {
-        gameStatus.image = stretchitText;
-    }
-    else if (random == 5) {
-        gameStatus.image = flickitText;
-    }
+
     
     //Speed change based on current user score
     //Motivation messages
@@ -296,19 +289,46 @@
 
 //Generates random number
 - (void) randomGen {
-    random = arc4random_uniform(6);
-    if (random == 0){
-        random++;
+    if (isGameOver != YES) {
+        random = arc4random_uniform(6);
+        
+        if (random == 0){
+            random++;
+        }
+        //Game Logic
+        if (random == 1) {
+            gameStatus.image = pullitText;
+            
+        }
+        else if (random == 2) {
+            gameStatus.image = spinitText;
+            
+        }
+        else if (random == 3) {
+            gameStatus.image = bopitText;
+            
+        }
+        else if (random == 4) {
+            gameStatus.image = stretchitText;
+            
+        }
+        else if (random == 5) {
+            gameStatus.image = flickitText;
+            
+        }
+        [self AnimateGameScreen];
     }
+
 }
 
 - (void) gameFailed{
     
     //Stops background music and plays failed game sound
     [audioplayer stop];
-    //AudioServicesPlaySystemSound(FailedID);
     [FailedID play];
+    
     //Resets game logic
+    isGameOver = YES;
     currentScoreLabel.text = @"SO CLOSE!";
     startButton.userInteractionEnabled = YES;
     UIImage *gameOverText = [UIImage imageNamed:@"gameOver.png"];
@@ -335,6 +355,7 @@
     audioplayer.currentTime = 0;
     [audioplayer play];
     startButton.userInteractionEnabled = NO;
+    isGameOver = NO;
     
     //Animate start button
     POPSpringAnimation *layerScaleAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
@@ -351,7 +372,7 @@
     [self randomGen];
     
     
-    myTimer = [NSTimer scheduledTimerWithTimeInterval:0.5
+    myTimer = [NSTimer scheduledTimerWithTimeInterval:0.7
                                                target:self
                                              selector:@selector(timerAction:)
                                              userInfo:nil
@@ -466,14 +487,7 @@
     //AudioServicesPlaySystemSound(BopitID);
     [BopitID play];
     bopit.userInteractionEnabled = NO;
-    POPSpringAnimation *positionAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
-    positionAnimation.velocity = @800;
-    positionAnimation.springBounciness = 15.f;
-    [positionAnimation setCompletionBlock:^(POPAnimation *animation, BOOL finished) {
-        bopit.userInteractionEnabled = YES;
-    }];
-    [gameStatus.layer pop_addAnimation:positionAnimation forKey:@"positionAnimation"];
-    positionAnimation.delegate = self;
+    [self AnimateGameScreen];
     
     //Handle game logic
     if (random != 3) {
@@ -485,13 +499,17 @@
         counter = 0;
         [self randomGen];
     }
-    
 }
 
 - (void)handlePinch:(UIPinchGestureRecognizer *)recognizer{
     
     //Check game logic
-    
+    if (random != 4) {
+        [self gameFailed];
+    }
+    else {
+        counter = 0;
+    }
     
     //Animate
     POPSpringAnimation *scaleAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
@@ -502,22 +520,26 @@
     
     //Check when user lets go
     if(recognizer.state == UIGestureRecognizerStateEnded) {
-        if (random != 4) {
-            [self gameFailed];
-        }
-        else {
-            score++;
-            currentScoreCounter.text = [NSString stringWithFormat:@"%d",score];
-            counter = 0;
-            [self randomGen];
-        }
-        //Play sound
         
+        //Play sound
+        score++;
+        currentScoreCounter.text = [NSString stringWithFormat:@"%d",score];
+        [self randomGen];
         [StretchID play];
         
         
     }
     
+}
+- (void) AnimateGameScreen{
+    POPSpringAnimation *positionAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
+    positionAnimation.velocity = @400;
+    positionAnimation.springBounciness = 10.f;
+    [positionAnimation setCompletionBlock:^(POPAnimation *animation, BOOL finished) {
+        bopit.userInteractionEnabled = YES;
+    }];
+    [gameStatus.layer pop_addAnimation:positionAnimation forKey:@"positionAnimation"];
+    positionAnimation.delegate = self;
 }
 
 - (void) sounds{
@@ -526,37 +548,37 @@
 
         NSString *Boing = [[NSBundle mainBundle]pathForResource:@"Cartoon_Boing" ofType:@"wav"];
         BoingSoundID = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL fileURLWithPath:Boing] error:NULL];
-        BoingSoundID.delegate = self;
+        //BoingSoundID.delegate = self;
         BoingSoundID.volume = 0.3;
 
    //Pull it sound
     NSString *SlideWhistle = [[NSBundle mainBundle]pathForResource:@"Slide_Whistle" ofType:@"wav"];
     SlideWhistleID = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL fileURLWithPath:SlideWhistle] error:NULL];
-    SlideWhistleID.delegate = self;
+    //SlideWhistleID.delegate = self;
     SlideWhistleID.volume = 0.3;
 
    //Spin it sound
     NSString *Gear = [[NSBundle mainBundle]pathForResource:@"gear" ofType:@"mp3"];
     GearID = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL fileURLWithPath:Gear] error:NULL];
-    GearID.delegate = self;
+    //GearID.delegate = self;
     GearID.volume = 0.3;
 
    //Stretch it sound
     NSString *Stretch = [[NSBundle mainBundle]pathForResource:@"stretch" ofType:@"mp3"];
     StretchID = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL fileURLWithPath:Stretch] error:NULL];
-    StretchID.delegate = self;
+    //StretchID.delegate = self;
     StretchID.volume = 0.6;
 
    //Bopit sound
     NSString *Bopit = [[NSBundle mainBundle]pathForResource:@"bopit" ofType:@"wav"];
     BopitID = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL fileURLWithPath:Bopit] error:NULL];
-    BopitID.delegate = self;
+    //BopitID.delegate = self;
     BopitID.volume = 0.3;
 
    //Failed sound
     NSString *Failed = [[NSBundle mainBundle]pathForResource:@"failed" ofType:@"wav"];
     FailedID = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL fileURLWithPath:Failed] error:NULL];
-    FailedID.delegate = self;
+    //FailedID.delegate = self;
     FailedID.volume = 0.3;
    
     
@@ -575,9 +597,7 @@
         audioplayer = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL fileURLWithPath:sound] error:NULL];
     }
     
-    
-    
-    audioplayer.delegate = self;
+    //audioplayer.delegate = self;
     audioplayer.numberOfLoops = -1;
     audioplayer.volume = 0.3;
     
