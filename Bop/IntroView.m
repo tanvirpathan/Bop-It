@@ -40,13 +40,13 @@
     [self.view insertSubview:backgroundImageView atIndex:0];
     
     UIButton *newGame = [UIButton buttonWithType:UIButtonTypeCustom];
-    newGame.frame = CGRectMake(390, 570, 250, 50);
+    newGame.frame = CGRectMake(415, 570, 190, 50);
     [newGame setBackgroundImage:[UIImage imageNamed:@"newgame.png"] forState:UIControlStateNormal];
     [newGame addTarget:self action:@selector(handleNewGame:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:newGame];
     
     UIButton *highscore = [UIButton buttonWithType:UIButtonTypeCustom];
-    highscore.frame = CGRectMake(390, 640, 250, 50);
+    highscore.frame = CGRectMake(415, 640, 190, 50);
     [highscore setBackgroundImage:[UIImage imageNamed:@"highscore.png"] forState:UIControlStateNormal];
     [highscore addTarget:self action:@selector(handleHighscore:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:highscore];
@@ -72,6 +72,8 @@
     layerScaleAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(1.f, 1.f)];
     layerScaleAnimation.springBounciness = 15.f;
     [button.layer pop_addAnimation:layerScaleAnimation forKey:@"layerScaleAnimation"];
+    
+    [self performSegueWithIdentifier:@"highScore" sender:self];
     
 }
 - (void)didReceiveMemoryWarning {

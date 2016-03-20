@@ -30,11 +30,55 @@
                     <connections>
                         <outlet property="particleBackground" destination="IWm-Sp-gcf" id="Few-qy-ZXg"/>
                         <segue destination="FJM-MW-XFS" kind="show" identifier="newGameSegue" animates="NO" id="yGh-j8-9xE"/>
+                        <segue destination="0cR-JF-cVS" kind="show" identifier="highScore" animates="NO" id="KkM-mP-CiQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Oh2-e1-EFH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-5.25" y="-1978.5"/>
+            <point key="canvasLocation" x="-36.75" y="-1960.5"/>
+        </scene>
+        <!--Highscore View-->
+        <scene sceneID="bKx-XR-yPR">
+            <objects>
+                <viewController id="0cR-JF-cVS" customClass="HighscoreView" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="NJa-GL-kWg"/>
+                        <viewControllerLayoutGuide type="bottom" id="AQt-qO-WaI"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="uwf-XZ-QsI">
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hNg-ib-IEc">
+                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <variation key="heightClass=regular-widthClass=regular" fixedFrame="YES">
+                                    <rect key="frame" x="20" y="78" width="365" height="483"/>
+                                </variation>
+                                <connections>
+                                    <outlet property="dataSource" destination="0cR-JF-cVS" id="fuI-nG-8pe"/>
+                                    <outlet property="delegate" destination="0cR-JF-cVS" id="Qdx-KT-gT6"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="hNg-ib-IEc"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=regular">
+                            <mask key="subviews">
+                                <include reference="hNg-ib-IEc"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <connections>
+                        <segue destination="FJM-MW-XFS" kind="show" identifier="gameScreen" animates="NO" id="Vqp-f3-Gc9"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pOr-YD-Ysj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-36.75" y="-1213.5"/>
         </scene>
         <!--Pop View Controller-->
         <scene sceneID="HIu-Ox-Cug">
@@ -60,11 +104,16 @@
                     </view>
                     <connections>
                         <outlet property="particleBackground" destination="RsJ-Tq-Tmc" id="THf-Gs-4Ru"/>
+                        <segue destination="0cR-JF-cVS" kind="show" identifier="scoreScreen" animates="NO" id="WBS-1J-ucB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JBP-Kv-EQo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="819" y="-1857"/>
+            <point key="canvasLocation" x="852" y="-1950"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="KkM-mP-CiQ"/>
+        <segue reference="yGh-j8-9xE"/>
+    </inferredMetricsTieBreakers>
 </document>

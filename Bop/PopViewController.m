@@ -17,7 +17,6 @@
 @interface PopViewController () <POPAnimationDelegate>
 {
     
-    
     //__weak IBOutlet SKView *particleBackground;
     //Game buttons
     
@@ -141,9 +140,16 @@
     [currentScoreCounter setTextColor:[UIColor whiteColor]];
     [self.view addSubview:currentScoreCounter];
     
+    //Score screen
+    UIButton *scoreScreen = [UIButton buttonWithType:UIButtonTypeCustom];
+    scoreScreen.frame = CGRectMake(810, 700, 190, 50);
+    [scoreScreen setBackgroundImage:[UIImage imageNamed:@"highscore.png"] forState:UIControlStateNormal];
+    [scoreScreen addTarget:self action:@selector(handleScoreScreen:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:scoreScreen];
+    
     //Start Button
     startButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    startButton.frame = CGRectMake(750, 690, 250, 50);
+    startButton.frame = CGRectMake(810, 640, 190, 50);
     [startButton setBackgroundImage:[UIImage imageNamed:@"start.png"] forState:UIControlStateNormal];
     [startButton addTarget:self action:@selector(buttonTouchDown:) forControlEvents:UIControlEventTouchDown];
     
@@ -194,7 +200,7 @@
     [self.view addSubview:circle];
 }
 
-- (void) SpinIt {
+- (void)SpinIt {
     
     //Make view
     gear = [[UIImageView alloc] initWithFrame:CGRectMake(69, 250, 190, 190)];
@@ -202,6 +208,7 @@
     gear.contentMode = UIViewContentModeScaleAspectFit;
     gear.clipsToBounds = YES;
     gear.userInteractionEnabled = YES;
+
 
     //Add gesture
     UISwipeGestureRecognizer *recognizer2 = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
@@ -211,6 +218,7 @@
     [gear addGestureRecognizer:recognizer2];
     [gear addGestureRecognizer:recognizer3];
     [self.view addSubview:gear];
+    
 }
 
 - (void) BopIt{
@@ -348,6 +356,18 @@
 #pragma mark -
 #pragma mark Handle User Interactions
 
+- (void)handleScoreScreen:(UIButton *)button{
+    
+    POPSpringAnimation *layerScaleAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
+    layerScaleAnimation.velocity = [NSValue valueWithCGSize:CGSizeMake(2.f, 2.f)];
+    layerScaleAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(1.f, 1.f)];
+    layerScaleAnimation.springBounciness = 15.f;
+    [button.layer pop_addAnimation:layerScaleAnimation forKey:@"layerScaleAnimation"];
+    
+    [self performSegueWithIdentifier:@"scoreScreen" sender:self];
+    
+}
+
 - (void)buttonTouchDown:(UIButton *)button{
     
     //Start background music
@@ -372,7 +392,7 @@
     [self randomGen];
     
     
-    myTimer = [NSTimer scheduledTimerWithTimeInterval:0.7
+    myTimer = [NSTimer scheduledTimerWithTimeInterval:0.62
                                                target:self
                                              selector:@selector(timerAction:)
                                              userInfo:nil
@@ -389,6 +409,7 @@
 {
     //Play sound and animate
     //AudioServicesPlaySystemSound(GearID);
+    
     [GearID play];
     [UIView animateWithDuration:0.5f delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         [gear setTransform:CGAffineTransformRotate(gear.transform, M_PI)];
@@ -398,7 +419,7 @@
         [gear setTransform:CGAffineTransformRotate(gear.transform, -M_PI)];
     }completion:^(BOOL finished){
     }];
-    
+
     //Handle game logic
     if (random != 2) {
         [self gameFailed];
@@ -416,11 +437,11 @@
     //Play sound and animate
     //AudioServicesPlaySystemSound(BoingSoundID);
     [BoingSoundID play];
-    [UIView animateWithDuration:0.25f delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+    [UIView animateWithDuration:0.15f delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         [flick setTransform:CGAffineTransformRotate(flick.transform, M_PI/3)];
     }completion:^(BOOL finished){
     }];
-    [UIView animateWithDuration:0.25f delay:0.25 options:UIViewAnimationOptionCurveEaseOut animations:^{
+    [UIView animateWithDuration:0.15f delay:0.15 options:UIViewAnimationOptionCurveEaseOut animations:^{
         [flick setTransform:CGAffineTransformRotate(flick.transform, -M_PI/3)];
     }completion:^(BOOL finished){
     }];
@@ -534,7 +555,7 @@
 - (void) AnimateGameScreen{
     POPSpringAnimation *positionAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
     positionAnimation.velocity = @400;
-    positionAnimation.springBounciness = 10.f;
+    positionAnimation.springBounciness = 5.f;
     [positionAnimation setCompletionBlock:^(POPAnimation *animation, BOOL finished) {
         bopit.userInteractionEnabled = YES;
     }];
@@ -546,7 +567,7 @@
     
     //Flick it sound
 
-        NSString *Boing = [[NSBundle mainBundle]pathForResource:@"Cartoon_Boing" ofType:@"wav"];
+        NSString *Boing = [[NSBundle mainBundle]pathForResource:@"Cartoon_Boing" ofType:@"mp3"];
         BoingSoundID = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL fileURLWithPath:Boing] error:NULL];
         //BoingSoundID.delegate = self;
         BoingSoundID.volume = 0.3;
@@ -584,19 +605,11 @@
     
     
     //Background music
-    int randomBeat = arc4random_uniform(3);
-    if (randomBeat == 0){
-        randomBeat++;
-    }
-    if (randomBeat==1) {
+  
+
         NSString *sound = [[NSBundle mainBundle]pathForResource:@"backgroundbeat" ofType:@"mp3"];
         audioplayer = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL fileURLWithPath:sound] error:NULL];
-    }
-    else{
-        NSString *sound = [[NSBundle mainBundle]pathForResource:@"backgroundbeat2" ofType:@"mp3"];
-        audioplayer = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL fileURLWithPath:sound] error:NULL];
-    }
-    
+
     //audioplayer.delegate = self;
     audioplayer.numberOfLoops = -1;
     audioplayer.volume = 0.3;

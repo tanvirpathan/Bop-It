@@ -40,11 +40,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Bop/PopViewController.m"
-            timestampString = "480176306.907063"
+            timestampString = "480188182.863341"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "570"
-            endingLineNumber = "570"
+            startingLineNumber = "590"
+            endingLineNumber = "590"
             landmarkName = "-sounds"
             landmarkType = "5">
          </BreakpointContent>
