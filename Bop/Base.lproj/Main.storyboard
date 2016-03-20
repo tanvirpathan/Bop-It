@@ -48,27 +48,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XME-C8-meI" customClass="SKView">
-                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FtD-g0-7KU" customClass="SKView">
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RsJ-Tq-Tmc" customClass="SKView">
                                 <rect key="frame" x="0.0" y="0.0" width="1024" height="800"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <variation key="heightClass=regular-widthClass=regular" fixedFrame="YES">
-                                    <rect key="frame" x="-24" y="0.0" width="1300" height="800"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="1200" height="1000"/>
                                 </variation>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                        <variation key="heightClass=regular-widthClass=regular">
-                            <mask key="subviews">
-                                <exclude reference="XME-C8-meI"/>
-                            </mask>
-                        </variation>
                     </view>
                     <connections>
-                        <outlet property="particleBackground" destination="FtD-g0-7KU" id="anM-nC-v3I"/>
+                        <outlet property="particleBackground" destination="RsJ-Tq-Tmc" id="THf-Gs-4Ru"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JBP-Kv-EQo" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -10,6 +10,7 @@
 #import <pop/POP.h>
 #import <UIKitPlus/UIKitPlus.h>
 #import "RainScene.h"
+#import "Firefly.h"
 
 @interface IntroView () <POPAnimationDelegate>
 {
@@ -23,7 +24,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    RainScene *scene = [RainScene sceneWithSize:particleBackground.bounds.size];
+    Firefly *scene = [Firefly sceneWithSize:particleBackground.bounds.size];
     scene.scaleMode = SKSceneScaleModeAspectFill;
     particleBackground.allowsTransparency = YES;
     scene.backgroundColor = [UIColor clearColor];

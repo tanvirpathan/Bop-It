@@ -15,7 +15,7 @@
         
         NSString *emitterPath = [[NSBundle mainBundle] pathForResource:@"Smoke" ofType:@"sks"];
         SKEmitterNode *smoke = [NSKeyedUnarchiver unarchiveObjectWithFile:emitterPath];
-        smoke.position = CGPointMake(400,20);
+        smoke.position = CGPointMake(200,200);
         smoke.particleSpeed = 60;
         smoke.name = @"particleSmoke";
         smoke.targetNode = self.scene;

@@ -16,6 +16,11 @@
 		B90C49631C5CEF2000DA64B2 /* BopTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90C49621C5CEF2000DA64B2 /* BopTests.swift */; };
 		B90C496E1C5CEF2000DA64B2 /* BopUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90C496D1C5CEF2000DA64B2 /* BopUITests.swift */; };
 		B935E4E51C8C720F00B0C08C /* IntroView.m in Sources */ = {isa = PBXBuildFile; fileRef = B935E4E41C8C720F00B0C08C /* IntroView.m */; };
+		B9450C0B1C9E01A700AC773A /* backgroundbeat.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B9450C0A1C9E01A700AC773A /* backgroundbeat.mp3 */; };
+		B9450C0D1C9E049E00AC773A /* backgroundbeat2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B9450C0C1C9E049E00AC773A /* backgroundbeat2.mp3 */; };
+		B9450C121C9E14DF00AC773A /* Firefly.sks in Resources */ = {isa = PBXBuildFile; fileRef = B9450C101C9E14DF00AC773A /* Firefly.sks */; };
+		B9450C161C9E157700AC773A /* Firefly.m in Sources */ = {isa = PBXBuildFile; fileRef = B9450C151C9E157700AC773A /* Firefly.m */; };
+		B9450C181C9E1A6700AC773A /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = B9450C171C9E1A6700AC773A /* spark.png */; };
 		B9D983E51C95BB290040B0E8 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9D983E41C95BB290040B0E8 /* AudioToolbox.framework */; };
 		B9D983E91C95C5AC0040B0E8 /* Cartoon_Boing.wav in Resources */ = {isa = PBXBuildFile; fileRef = B9D983E81C95C5AC0040B0E8 /* Cartoon_Boing.wav */; };
 		B9D983ED1C95C7DA0040B0E8 /* Slide_Whistle.wav in Resources */ = {isa = PBXBuildFile; fileRef = B9D983EC1C95C7DA0040B0E8 /* Slide_Whistle.wav */; };
@@ -24,7 +29,6 @@
 		B9D983F71C95D8270040B0E8 /* bopit.wav in Resources */ = {isa = PBXBuildFile; fileRef = B9D983F61C95D8270040B0E8 /* bopit.wav */; };
 		B9D983F91C95D99A0040B0E8 /* failed.wav in Resources */ = {isa = PBXBuildFile; fileRef = B9D983F81C95D99A0040B0E8 /* failed.wav */; };
 		B9D983FB1C95DF6D0040B0E8 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9D983FA1C95DF6D0040B0E8 /* AVFoundation.framework */; };
-		B9D983FD1C95E2D70040B0E8 /* backgroundbeat.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B9D983FC1C95E2D70040B0E8 /* backgroundbeat.mp3 */; };
 		B9D984661C9D76B90040B0E8 /* RainScene.m in Sources */ = {isa = PBXBuildFile; fileRef = B9D984651C9D76B90040B0E8 /* RainScene.m */; };
 		B9D9847D1C9D8F9E0040B0E8 /* Rain.sks in Resources */ = {isa = PBXBuildFile; fileRef = B9D9847B1C9D8F9E0040B0E8 /* Rain.sks */; };
 		B9D9847E1C9D8F9E0040B0E8 /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = B9D9847C1C9D8F9E0040B0E8 /* spark.png */; };
@@ -71,6 +75,12 @@
 		B90C496F1C5CEF2000DA64B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B935E4E31C8C720F00B0C08C /* IntroView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroView.h; sourceTree = "<group>"; };
 		B935E4E41C8C720F00B0C08C /* IntroView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroView.m; sourceTree = "<group>"; };
+		B9450C0A1C9E01A700AC773A /* backgroundbeat.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = backgroundbeat.mp3; sourceTree = "<group>"; };
+		B9450C0C1C9E049E00AC773A /* backgroundbeat2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = backgroundbeat2.mp3; sourceTree = "<group>"; };
+		B9450C101C9E14DF00AC773A /* Firefly.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Firefly.sks; sourceTree = "<group>"; };
+		B9450C141C9E157700AC773A /* Firefly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Firefly.h; sourceTree = "<group>"; };
+		B9450C151C9E157700AC773A /* Firefly.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Firefly.m; sourceTree = "<group>"; };
+		B9450C171C9E1A6700AC773A /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
 		B9D983E41C95BB290040B0E8 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		B9D983E81C95C5AC0040B0E8 /* Cartoon_Boing.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Cartoon_Boing.wav; sourceTree = "<group>"; };
 		B9D983EC1C95C7DA0040B0E8 /* Slide_Whistle.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Slide_Whistle.wav; sourceTree = "<group>"; };
@@ -79,7 +89,6 @@
 		B9D983F61C95D8270040B0E8 /* bopit.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = bopit.wav; sourceTree = "<group>"; };
 		B9D983F81C95D99A0040B0E8 /* failed.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = failed.wav; sourceTree = "<group>"; };
 		B9D983FA1C95DF6D0040B0E8 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		B9D983FC1C95E2D70040B0E8 /* backgroundbeat.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = backgroundbeat.mp3; sourceTree = "<group>"; };
 		B9D984641C9D76B90040B0E8 /* RainScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RainScene.h; sourceTree = "<group>"; };
 		B9D984651C9D76B90040B0E8 /* RainScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RainScene.m; sourceTree = "<group>"; };
 		B9D9847B1C9D8F9E0040B0E8 /* Rain.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Rain.sks; sourceTree = "<group>"; };
@@ -164,6 +173,10 @@
 			isa = PBXGroup;
 			children = (
 				B9D9847C1C9D8F9E0040B0E8 /* spark.png */,
+				B9450C101C9E14DF00AC773A /* Firefly.sks */,
+				B9450C141C9E157700AC773A /* Firefly.h */,
+				B9450C171C9E1A6700AC773A /* spark.png */,
+				B9450C151C9E157700AC773A /* Firefly.m */,
 				B9D9847B1C9D8F9E0040B0E8 /* Rain.sks */,
 				B9D984841C9DD06C0040B0E8 /* Smoke.sks */,
 				B9D984861C9DD1010040B0E8 /* SmokeScene.h */,
@@ -208,8 +221,9 @@
 			children = (
 				B9D983E81C95C5AC0040B0E8 /* Cartoon_Boing.wav */,
 				B9D983F81C95D99A0040B0E8 /* failed.wav */,
-				B9D983FC1C95E2D70040B0E8 /* backgroundbeat.mp3 */,
 				B9D983EE1C95C8B40040B0E8 /* gear.mp3 */,
+				B9450C0C1C9E049E00AC773A /* backgroundbeat2.mp3 */,
+				B9450C0A1C9E01A700AC773A /* backgroundbeat.mp3 */,
 				B9D983F61C95D8270040B0E8 /* bopit.wav */,
 				B9D983EC1C95C7DA0040B0E8 /* Slide_Whistle.wav */,
 				B9D983F41C95D0B70040B0E8 /* stretch.mp3 */,
@@ -327,15 +341,18 @@
 			files = (
 				B9D983E91C95C5AC0040B0E8 /* Cartoon_Boing.wav in Resources */,
 				B9D983ED1C95C7DA0040B0E8 /* Slide_Whistle.wav in Resources */,
+				B9450C0D1C9E049E00AC773A /* backgroundbeat2.mp3 in Resources */,
 				B9D983F71C95D8270040B0E8 /* bopit.wav in Resources */,
 				B9D983F91C95D99A0040B0E8 /* failed.wav in Resources */,
 				B90C49581C5CEF2000DA64B2 /* LaunchScreen.storyboard in Resources */,
 				B9D9847E1C9D8F9E0040B0E8 /* spark.png in Resources */,
-				B9D983FD1C95E2D70040B0E8 /* backgroundbeat.mp3 in Resources */,
+				B9450C121C9E14DF00AC773A /* Firefly.sks in Resources */,
 				B90C49551C5CEF2000DA64B2 /* Assets.xcassets in Resources */,
 				B9D983EF1C95C8B40040B0E8 /* gear.mp3 in Resources */,
+				B9450C181C9E1A6700AC773A /* spark.png in Resources */,
 				771C3DB21C7D4F9E00B09B2E /* Podfile in Resources */,
 				B9D9847D1C9D8F9E0040B0E8 /* Rain.sks in Resources */,
+				B9450C0B1C9E01A700AC773A /* backgroundbeat.mp3 in Resources */,
 				B9D983F51C95D0B70040B0E8 /* stretch.mp3 in Resources */,
 				B9D984851C9DD06C0040B0E8 /* Smoke.sks in Resources */,
 				B90C49531C5CEF2000DA64B2 /* Main.storyboard in Resources */,
@@ -412,6 +429,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				772075CF1C7D52CF00604817 /* PopViewController.m in Sources */,
+				B9450C161C9E157700AC773A /* Firefly.m in Sources */,
 				B935E4E51C8C720F00B0C08C /* IntroView.m in Sources */,
 				B9D984661C9D76B90040B0E8 /* RainScene.m in Sources */,
 				B90C494E1C5CEF2000DA64B2 /* AppDelegate.swift in Sources */,

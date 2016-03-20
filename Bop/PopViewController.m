@@ -9,16 +9,20 @@
 #import "PopViewController.h"
 #import <pop/POP.h>
 #import <UIKitPlus/UIKitPlus.h>
-#import "RainScene.h"
-#import "SmokeScene.h"
+//#import "RainScene.h"
+//#import "SmokeScene.h"
+#import "Firefly.h"
 
 
 @interface PopViewController () <POPAnimationDelegate>
 {
     
     
-    __weak IBOutlet SKView *particleBackground;
+    //__weak IBOutlet SKView *particleBackground;
     //Game buttons
+    
+    
+    __weak IBOutlet SKView *particleBackground;
     UIImageView *circle;
     UIImageView *bopit;
     UIImageView *pinchit;
@@ -100,10 +104,11 @@
     backgroundImageView.image=backgroundImage;
     [self.view insertSubview:backgroundImageView atIndex:0];
     
-    //SmokeScene *scene = [SmokeScene sceneWithSize:particleBackground.bounds.size];
-    //RainScene *scene = [RainScene sceneWithSize:particleBackground.bounds.size];
-    SmokeScene *scene = [SmokeScene sceneWithSize:particleBackground.bounds.size];
-    
+    Firefly *scene = [Firefly sceneWithSize:particleBackground.bounds.size];
+   // RainScene *scene2 = [RainScene sceneWithSize:particleBackground2.bounds.size];
+//    SmokeScene *scene = [SmokeScene sceneWithSize:particleBackground.bounds.size];
+//    
+//
     scene.scaleMode = SKSceneScaleModeAspectFill;
     particleBackground.allowsTransparency = YES;
     scene.backgroundColor = [UIColor clearColor];
@@ -302,7 +307,7 @@
     //Stops background music and plays failed game sound
     [audioplayer stop];
     //AudioServicesPlaySystemSound(FailedID);
-    
+    [FailedID play];
     //Resets game logic
     currentScoreLabel.text = @"SO CLOSE!";
     startButton.userInteractionEnabled = YES;
@@ -326,6 +331,7 @@
 - (void)buttonTouchDown:(UIButton *)button{
     
     //Start background music
+    [self sounds];
     audioplayer.currentTime = 0;
     [audioplayer play];
     startButton.userInteractionEnabled = NO;
@@ -345,7 +351,7 @@
     [self randomGen];
     
     
-    myTimer = [NSTimer scheduledTimerWithTimeInterval:0.3
+    myTimer = [NSTimer scheduledTimerWithTimeInterval:0.5
                                                target:self
                                              selector:@selector(timerAction:)
                                              userInfo:nil
@@ -361,7 +367,8 @@
 - (void)handleSwipe:(UISwipeGestureRecognizer *)recognizer
 {
     //Play sound and animate
-    AudioServicesPlaySystemSound(GearID);
+    //AudioServicesPlaySystemSound(GearID);
+    [GearID play];
     [UIView animateWithDuration:0.5f delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         [gear setTransform:CGAffineTransformRotate(gear.transform, M_PI)];
     }completion:^(BOOL finished){
@@ -386,7 +393,8 @@
 - (void)handleFlick:(UISwipeGestureRecognizer *)recognizer
 {
     //Play sound and animate
-    AudioServicesPlaySystemSound(BoingSoundID);
+    //AudioServicesPlaySystemSound(BoingSoundID);
+    [BoingSoundID play];
     [UIView animateWithDuration:0.25f delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         [flick setTransform:CGAffineTransformRotate(flick.transform, M_PI/3)];
     }completion:^(BOOL finished){
@@ -420,7 +428,8 @@
     if (((recognizer.view.center.x + translation.x) <= 400) || (recognizer.view.center.y + translation.y) <= 400) {
         
         //Play sound
-        AudioServicesPlaySystemSound(SlideWhistleID);
+        //AudioServicesPlaySystemSound(SlideWhistleID);
+        [SlideWhistleID play];
         passedBoundaries = YES;
     }
    
@@ -454,7 +463,8 @@
 - (void)handleTap:(UITapGestureRecognizer *)recognizer
 {
     //Play sound and animate
-    AudioServicesPlaySystemSound(BopitID);
+    //AudioServicesPlaySystemSound(BopitID);
+    [BopitID play];
     bopit.userInteractionEnabled = NO;
     POPSpringAnimation *positionAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
     positionAnimation.velocity = @800;
@@ -480,6 +490,9 @@
 
 - (void)handlePinch:(UIPinchGestureRecognizer *)recognizer{
     
+    //Check game logic
+    
+    
     //Animate
     POPSpringAnimation *scaleAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
     scaleAnimation.velocity = [NSValue valueWithCGSize:CGSizeMake(2.f, 2.f)];
@@ -489,11 +502,6 @@
     
     //Check when user lets go
     if(recognizer.state == UIGestureRecognizerStateEnded) {
-        
-        //Play sound
-        AudioServicesPlaySystemSound(StretchID);
-        
-        //Check game logic
         if (random != 4) {
             [self gameFailed];
         }
@@ -503,6 +511,11 @@
             counter = 0;
             [self randomGen];
         }
+        //Play sound
+        
+        [StretchID play];
+        
+        
     }
     
 }
@@ -510,34 +523,60 @@
 - (void) sounds{
     
     //Flick it sound
-    NSURL *BoingURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"Cartoon_Boing" ofType:@"wav"]];
-    AudioServicesCreateSystemSoundID((__bridge CFURLRef)BoingURL, &BoingSoundID);
-    
-    //Pull it sound
-    NSURL *SlideWhistleURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"Slide_Whistle" ofType:@"wav"]];
-    AudioServicesCreateSystemSoundID((__bridge CFURLRef)SlideWhistleURL, &SlideWhistleID);
-    
-    //Spin it sound
-    NSURL *GearURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"gear" ofType:@"mp3"]];
-    AudioServicesCreateSystemSoundID((__bridge CFURLRef)GearURL, &GearID);
-    
-    //Stretch it sound
-    NSURL *StretchURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"stretch" ofType:@"mp3"]];
-    AudioServicesCreateSystemSoundID((__bridge CFURLRef)StretchURL, &StretchID);
-    
-    //Bopit sound
-    NSURL *BopitURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"bopit" ofType:@"wav"]];
-    AudioServicesCreateSystemSoundID((__bridge CFURLRef)BopitURL, &BopitID);
-    
-    //Failed sound
-    NSURL *FailedURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"failed" ofType:@"wav"]];
-    AudioServicesCreateSystemSoundID((__bridge CFURLRef)FailedURL, &FailedID);
+
+        NSString *Boing = [[NSBundle mainBundle]pathForResource:@"Cartoon_Boing" ofType:@"wav"];
+        BoingSoundID = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL fileURLWithPath:Boing] error:NULL];
+        BoingSoundID.delegate = self;
+        BoingSoundID.volume = 0.3;
+
+   //Pull it sound
+    NSString *SlideWhistle = [[NSBundle mainBundle]pathForResource:@"Slide_Whistle" ofType:@"wav"];
+    SlideWhistleID = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL fileURLWithPath:SlideWhistle] error:NULL];
+    SlideWhistleID.delegate = self;
+    SlideWhistleID.volume = 0.3;
+
+   //Spin it sound
+    NSString *Gear = [[NSBundle mainBundle]pathForResource:@"gear" ofType:@"mp3"];
+    GearID = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL fileURLWithPath:Gear] error:NULL];
+    GearID.delegate = self;
+    GearID.volume = 0.3;
+
+   //Stretch it sound
+    NSString *Stretch = [[NSBundle mainBundle]pathForResource:@"stretch" ofType:@"mp3"];
+    StretchID = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL fileURLWithPath:Stretch] error:NULL];
+    StretchID.delegate = self;
+    StretchID.volume = 0.6;
+
+   //Bopit sound
+    NSString *Bopit = [[NSBundle mainBundle]pathForResource:@"bopit" ofType:@"wav"];
+    BopitID = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL fileURLWithPath:Bopit] error:NULL];
+    BopitID.delegate = self;
+    BopitID.volume = 0.3;
+
+   //Failed sound
+    NSString *Failed = [[NSBundle mainBundle]pathForResource:@"failed" ofType:@"wav"];
+    FailedID = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL fileURLWithPath:Failed] error:NULL];
+    FailedID.delegate = self;
+    FailedID.volume = 0.3;
    
     
     
     //Background music
-    NSString *sound = [[NSBundle mainBundle]pathForResource:@"backgroundbeat" ofType:@"mp3"];
-    audioplayer = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL fileURLWithPath:sound] error:NULL];
+    int randomBeat = arc4random_uniform(3);
+    if (randomBeat == 0){
+        randomBeat++;
+    }
+    if (randomBeat==1) {
+        NSString *sound = [[NSBundle mainBundle]pathForResource:@"backgroundbeat" ofType:@"mp3"];
+        audioplayer = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL fileURLWithPath:sound] error:NULL];
+    }
+    else{
+        NSString *sound = [[NSBundle mainBundle]pathForResource:@"backgroundbeat2" ofType:@"mp3"];
+        audioplayer = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL fileURLWithPath:sound] error:NULL];
+    }
+    
+    
+    
     audioplayer.delegate = self;
     audioplayer.numberOfLoops = -1;
     audioplayer.volume = 0.3;

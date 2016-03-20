@@ -14,12 +14,19 @@
 @interface PopViewController : UIViewController
 
 {
-    SystemSoundID BoingSoundID;
-    SystemSoundID SlideWhistleID;
-    SystemSoundID GearID;
-    SystemSoundID StretchID;
-    SystemSoundID BopitID;
-    SystemSoundID FailedID;
+//    SystemSoundID BoingSoundID;
+//    SystemSoundID SlideWhistleID;
+//    SystemSoundID GearID;
+//    SystemSoundID StretchID;
+//    SystemSoundID BopitID;
+//    SystemSoundID FailedID;
+    
+    AVAudioPlayer *BoingSoundID;
+    AVAudioPlayer *SlideWhistleID;
+    AVAudioPlayer *GearID;
+    AVAudioPlayer *StretchID;
+    AVAudioPlayer *BopitID;
+    AVAudioPlayer *FailedID;
 
     AVAudioPlayer *audioplayer;
 }
