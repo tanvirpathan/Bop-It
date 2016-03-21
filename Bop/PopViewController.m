@@ -12,6 +12,7 @@
 //#import "RainScene.h"
 //#import "SmokeScene.h"
 #import "Firefly.h"
+#import "HighscoreView.h"
 
 
 @interface PopViewController () <POPAnimationDelegate>
@@ -37,6 +38,9 @@
     UILabel* HighScoreLabel;
     UILabel* currentScoreCounter;
     NSUserDefaults *defaults;
+    NSUserDefaults *scoresDefaults;
+    
+    
     NSInteger high;
     UIButton *startButton;
     
@@ -48,9 +52,12 @@
     
     
     int counter;
-    int score;
+    NSInteger score;
     int speed;
     int random;
+    
+    NSMutableArray *highScores;
+    //NSMutableArray *savedScores;
 
 
 }
@@ -65,9 +72,7 @@
     // Do any additional setup after loading the view.
     [super viewDidLoad];
     
-   
-    
-    
+    highScores = @[@0,@0,@0,@0,@0,@0,@0,@0,@0,@0 ];
     [self sounds];
     [self buildLayout];
     [self PullIt];
@@ -94,6 +99,14 @@
     overlay.image = overlaypic;
     [self.view addSubview:overlay];
 }
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if([segue.identifier isEqualToString:@"scoreScreen"]){
+        HighscoreView *controller = (HighscoreView *)segue.destinationViewController;
+        //controller.testing = @[@(752),@(64),@(53),@(42),@(41),@(39),@(36),@(35),@(30),@(29) ];
+        controller.testing = highScores;
+
+    }
+}
 
 - (void) buildLayout {
     
@@ -101,6 +114,9 @@
     defaults = [NSUserDefaults standardUserDefaults];
     high = [defaults integerForKey:@"HighScore"];
     speed = 6;
+    
+    //scoresDefaults = [NSUserDefaults standardUserDefaults];
+    //savedScores = [scoresDefaults mutableArrayValueForKey:@"HighScoreArray"];
 
     
     //Background Image
@@ -118,7 +134,7 @@
     particleBackground.allowsTransparency = YES;
     scene.backgroundColor = [UIColor clearColor];
     [particleBackground presentScene:scene];
-    
+
     //Current Score Label
     currentScoreLabel=[[UILabel alloc]initWithFrame:CGRectMake(55, 485, 485, 200)];
     [currentScoreLabel setText:@"GET READY"];
@@ -344,6 +360,28 @@
     speed = 6;
     counter = 0;
     [myTimer invalidate];
+    
+    NSLog(@"[%d]",score);
+    NSMutableArray *sorted1 = [highScores sortedArrayUsingSelector:@selector(compare:)].mutableCopy;
+    for (int i=0; i< [sorted1 count]; i++){
+        //NSLog(@"[%d]:%@",i,sorted1[i]);
+        if (@(score) >= sorted1[0]) {
+            sorted1[0] = @(score);
+        }
+    }
+    
+    highScores = [sorted1 sortedArrayUsingSelector:@selector(compare:)].mutableCopy;
+    
+    NSSortDescriptor* sortOrder = [NSSortDescriptor sortDescriptorWithKey: @"self"
+                                                                ascending: NO];
+    highScores =  [sorted1 sortedArrayUsingDescriptors: [NSArray arrayWithObject: sortOrder]];
+    for (int i=0; i< [highScores count]; i++){
+        NSLog(@"[%d]:%@",i,highScores[i]);
+       
+    }
+    //savedScores = highScores;
+    //[scoresDefaults setObject:savedScores forKey:@"HighScoreArray"];
+    //[scoresDefaults synchronize];
     
     //Checks for highscore and updates accordingly
     if (score >high) {

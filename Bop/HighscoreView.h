@@ -11,4 +11,5 @@
 @interface HighscoreView : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (copy, nonatomic) NSArray *scoreHistory;
+@property (nonatomic, retain) NSArray *testing;
 @end

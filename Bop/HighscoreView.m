@@ -28,6 +28,8 @@
     [self.view addSubview:newGame];
     // Do any additional setup after loading the view.
     self.scoreHistory = @[@"75",@"64",@"53",@"42",@"41",@"39",@"36",@"35",@"30",@"29" ];
+    //self.scoreHistory = @[@(75),@(64),@(53),@(42),@(41),@(39),@(36),@(35),@(30),@(29) ];
+    NSLog(@"%@",_testing);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -35,7 +37,7 @@
     // Dispose of any resources that can be recreated.
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return [self.scoreHistory count];
+    return [self.testing count];
 }
 - (NSInteger)tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 2;
@@ -69,7 +71,8 @@
     //UIImage *image1 = [UIImage imageNamed:@"your_pic.png"];
     //cell.imageView.image = image1;
     
-    cell.textLabel.text = self.scoreHistory[indexPath.row];
+    cell.textLabel.text = [NSString stringWithFormat: @"%@", self.testing[indexPath.row]];
+    //cell.textLabel.text=[self.scoreHistory objectAtIndex:indexPath.row];
     cell.textLabel.textColor = [UIColor whiteColor];
     cell.backgroundView = nil;
     cell.backgroundColor = [UIColor clearColor];
