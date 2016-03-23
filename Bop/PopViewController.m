@@ -43,6 +43,7 @@
     
     NSInteger high;
     UIButton *startButton;
+    UIButton *scoreScreen;
     
     UIImage *bopitText;
     UIImage *pullitText;
@@ -57,6 +58,8 @@
     int random;
     
     NSMutableArray *highScores;
+    
+    POPBasicAnimation *opacityAnimation;
     //NSMutableArray *savedScores;
 
 
@@ -72,7 +75,15 @@
     // Do any additional setup after loading the view.
     [super viewDidLoad];
     
-    highScores = @[@0,@0,@0,@0,@0,@0,@0,@0,@0,@0 ];
+    
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"highscorekey"] mutableCopy]) {
+        highScores = [[[NSUserDefaults standardUserDefaults] objectForKey:@"highscorekey"] mutableCopy];
+    }
+    else{
+        highScores = @[@0,@0,@0,@0,@0,@0,@0,@0,@0,@0 ].mutableCopy;
+    }
+    
+
     [self sounds];
     [self buildLayout];
     [self PullIt];
@@ -99,6 +110,7 @@
     overlay.image = overlaypic;
     [self.view addSubview:overlay];
 }
+
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if([segue.identifier isEqualToString:@"scoreScreen"]){
         HighscoreView *controller = (HighscoreView *)segue.destinationViewController;
@@ -157,7 +169,7 @@
     [self.view addSubview:currentScoreCounter];
     
     //Score screen
-    UIButton *scoreScreen = [UIButton buttonWithType:UIButtonTypeCustom];
+    scoreScreen = [UIButton buttonWithType:UIButtonTypeCustom];
     scoreScreen.frame = CGRectMake(810, 700, 190, 50);
     [scoreScreen setBackgroundImage:[UIImage imageNamed:@"highscore.png"] forState:UIControlStateNormal];
     [scoreScreen addTarget:self action:@selector(handleScoreScreen:) forControlEvents:UIControlEventTouchUpInside];
@@ -219,7 +231,7 @@
 - (void)SpinIt {
     
     //Make view
-    gear = [[UIImageView alloc] initWithFrame:CGRectMake(69, 250, 190, 190)];
+    gear = [[UIImageView alloc] initWithFrame:CGRectMake(65, 254, 190, 190)];
     [gear setImage:[UIImage imageNamed:@"gearnew"]];
     gear.contentMode = UIViewContentModeScaleAspectFit;
     gear.clipsToBounds = YES;
@@ -254,7 +266,7 @@
 - (void) PinchIt{
     
     //Make view
-    pinchit = [[UIImageView alloc] initWithFrame:CGRectMake(720, 230, 130, 130)];
+    pinchit = [[UIImageView alloc] initWithFrame:CGRectMake(720, 235, 140, 140)];
     [pinchit setImage:[UIImage imageNamed:@"pinchitnew"]];
     pinchit.contentMode = UIViewContentModeScaleAspectFit;
     pinchit.userInteractionEnabled = YES;
@@ -351,10 +363,14 @@
     [audioplayer stop];
     [FailedID play];
     
+    opacityAnimation.toValue = @(1);
+    [startButton.layer pop_addAnimation:opacityAnimation forKey:@"opacityAnimation"];
+    [scoreScreen.layer pop_addAnimation:opacityAnimation forKey:@"opacityAnimation"];
     //Resets game logic
     isGameOver = YES;
     currentScoreLabel.text = @"SO CLOSE!";
     startButton.userInteractionEnabled = YES;
+    scoreScreen.userInteractionEnabled = YES;
     UIImage *gameOverText = [UIImage imageNamed:@"gameOver.png"];
     gameStatus.image = gameOverText;
     speed = 6;
@@ -362,10 +378,12 @@
     [myTimer invalidate];
     
     NSLog(@"[%d]",score);
+    
+/////////
     NSMutableArray *sorted1 = [highScores sortedArrayUsingSelector:@selector(compare:)].mutableCopy;
     for (int i=0; i< [sorted1 count]; i++){
-        //NSLog(@"[%d]:%@",i,sorted1[i]);
-        if (@(score) >= sorted1[0]) {
+        NSLog(@"[%d]:%@",i,sorted1[i]);
+        if (score >= [sorted1[0] intValue]) {
             sorted1[0] = @(score);
         }
     }
@@ -374,16 +392,16 @@
     
     NSSortDescriptor* sortOrder = [NSSortDescriptor sortDescriptorWithKey: @"self"
                                                                 ascending: NO];
-    highScores =  [sorted1 sortedArrayUsingDescriptors: [NSArray arrayWithObject: sortOrder]];
+    highScores =  [sorted1 sortedArrayUsingDescriptors: [NSArray arrayWithObject: sortOrder]].mutableCopy;
     for (int i=0; i< [highScores count]; i++){
         NSLog(@"[%d]:%@",i,highScores[i]);
        
     }
-    //savedScores = highScores;
-    //[scoresDefaults setObject:savedScores forKey:@"HighScoreArray"];
-    //[scoresDefaults synchronize];
-    
-    //Checks for highscore and updates accordingly
+    [[NSUserDefaults standardUserDefaults] setObject:highScores forKey:@"highscorekey"];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    });
+
     if (score >high) {
         [defaults setInteger:score forKey:@"HighScore"];
         [defaults synchronize];
@@ -396,11 +414,14 @@
 
 - (void)handleScoreScreen:(UIButton *)button{
     
-    POPSpringAnimation *layerScaleAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
-    layerScaleAnimation.velocity = [NSValue valueWithCGSize:CGSizeMake(2.f, 2.f)];
-    layerScaleAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(1.f, 1.f)];
-    layerScaleAnimation.springBounciness = 15.f;
-    [button.layer pop_addAnimation:layerScaleAnimation forKey:@"layerScaleAnimation"];
+//    POPSpringAnimation *layerScaleAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
+//    layerScaleAnimation.velocity = [NSValue valueWithCGSize:CGSizeMake(2.f, 2.f)];
+//    layerScaleAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(1.f, 1.f)];
+//    layerScaleAnimation.springBounciness = 15.f;
+//    [button.layer pop_addAnimation:layerScaleAnimation forKey:@"layerScaleAnimation"];
+
+    
+    
     
     [self performSegueWithIdentifier:@"scoreScreen" sender:self];
     
@@ -413,14 +434,21 @@
     audioplayer.currentTime = 0;
     [audioplayer play];
     startButton.userInteractionEnabled = NO;
+    scoreScreen.userInteractionEnabled = NO;
     isGameOver = NO;
     
     //Animate start button
-    POPSpringAnimation *layerScaleAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
-    layerScaleAnimation.velocity = [NSValue valueWithCGSize:CGSizeMake(2.f, 2.f)];
-    layerScaleAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(1.f, 1.f)];
-    layerScaleAnimation.springBounciness = 15.f;
-    [button.layer pop_addAnimation:layerScaleAnimation forKey:@"layerScaleAnimation"];
+//    POPSpringAnimation *layerScaleAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
+//    layerScaleAnimation.velocity = [NSValue valueWithCGSize:CGSizeMake(2.f, 2.f)];
+//    layerScaleAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(1.f, 1.f)];
+//    layerScaleAnimation.springBounciness = 15.f;
+//    [button.layer pop_addAnimation:layerScaleAnimation forKey:@"layerScaleAnimation"];
+    
+    opacityAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPLayerOpacity];
+    opacityAnimation.toValue = @(0);
+    [button.layer pop_addAnimation:opacityAnimation forKey:@"opacityAnimation"];
+    [scoreScreen.layer pop_addAnimation:opacityAnimation forKey:@"opacityAnimation"];
+    
     
     //Set game logic
     score = 0;
@@ -459,15 +487,19 @@
     }];
 
     //Handle game logic
-    if (random != 2) {
-        [self gameFailed];
+    if(isGameOver == NO){
+        if (random != 2) {
+            [self gameFailed];
+        }
+        else {
+            score++;
+            currentScoreCounter.text = [NSString stringWithFormat:@"%d",score];
+            counter = 0;
+            [self randomGen];
+        }
+        
     }
-    else {
-        score++;
-        currentScoreCounter.text = [NSString stringWithFormat:@"%d",score];
-        counter = 0;
-        [self randomGen];
-    }
+    
 }
 
 - (void)handleFlick:(UISwipeGestureRecognizer *)recognizer
@@ -475,25 +507,32 @@
     //Play sound and animate
     //AudioServicesPlaySystemSound(BoingSoundID);
     [BoingSoundID play];
-    [UIView animateWithDuration:0.15f delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        [flick setTransform:CGAffineTransformRotate(flick.transform, M_PI/3)];
-    }completion:^(BOOL finished){
-    }];
-    [UIView animateWithDuration:0.15f delay:0.15 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        [flick setTransform:CGAffineTransformRotate(flick.transform, -M_PI/3)];
-    }completion:^(BOOL finished){
-    }];
+    
+ 
+        [UIView animateWithDuration:0.15f delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+            [flick setTransform:CGAffineTransformRotate(flick.transform, M_PI/5)];
+        }completion:^(BOOL finished){
+        }];
+        [UIView animateWithDuration:0.15f delay:0.15 options:UIViewAnimationOptionCurveEaseOut animations:^{
+            [flick setTransform:CGAffineTransformRotate(flick.transform, -M_PI/5)];
+        }completion:^(BOOL finished){
+        }];
+    
     
     //Handle game logic
-    if (random != 5) {
-        [self gameFailed];
+    if(isGameOver == NO){
+        if (random != 5) {
+            [self gameFailed];
+        }
+        else {
+            score++;
+            currentScoreCounter.text = [NSString stringWithFormat:@"%d",score];
+            counter = 0;
+            [self randomGen];
+        }
+        
     }
-    else {
-        score++;
-        currentScoreCounter.text = [NSString stringWithFormat:@"%d",score];
-        counter = 0;
-        [self randomGen];
-    }
+    
 }
 
 - (void)handlePan:(UIPanGestureRecognizer *)recognizer
@@ -503,41 +542,53 @@
     CGPoint translation = [recognizer translationInView:self.view];
     recognizer.view.center = CGPointMake(recognizer.view.center.x + translation.x,recognizer.view.center.y + translation.y);
     [recognizer setTranslation:CGPointMake(0, 0) inView:self.view];
-    
+
     //Check if user panned far enough
-    if (((recognizer.view.center.x + translation.x) <= 400) || (recognizer.view.center.y + translation.y) <= 400) {
+    if (((recognizer.view.center.x + translation.x) <= 300) || (recognizer.view.center.y + translation.y) <= 500) {
+        
         
         //Play sound
-        //AudioServicesPlaySystemSound(SlideWhistleID);
         [SlideWhistleID play];
+        
         passedBoundaries = YES;
+        
     }
    
     //Handle animation when user lets go
     if(recognizer.state == UIGestureRecognizerStateEnded) {
+        
         if (passedBoundaries == YES){
             
             //Handle game logic
-            if (random != 1) {
-                [self gameFailed];
+            
+            if(isGameOver == NO){
+                if (random != 1) {
+                    
+                    [self gameFailed];
+                }
+                else {
+                    
+                    score++;
+                    currentScoreCounter.text = [NSString stringWithFormat:@"%d",score];
+                    counter = 0;
+                    [self randomGen];
+                }
+                
             }
-            else {
-                score++;
-                currentScoreCounter.text = [NSString stringWithFormat:@"%d",score];
-                counter = 0;
-                [self randomGen];
-            }
+            
             passedBoundaries = NO;
-        }
-        
+      
         //Animate back into position
-        CGPoint velocity = [recognizer velocityInView:self.view];
-        POPSpringAnimation *positionAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPosition];
-        positionAnimation.velocity = [NSValue valueWithCGPoint:velocity];
-        positionAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(539, 680)];
-        [circle.layer pop_addAnimation:positionAnimation forKey:@"layerPositionAnimation"];
-        positionAnimation.delegate = self;
+        
+        }
     }
+    CGPoint velocity = [recognizer velocityInView:self.view];
+    POPSpringAnimation *positionAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPosition];
+    positionAnimation.velocity = [NSValue valueWithCGPoint:velocity];
+    positionAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(539, 680)];
+    [circle.layer pop_addAnimation:positionAnimation forKey:@"layerPositionAnimation"];
+    positionAnimation.delegate = self;
+
 }
 
 - (void)handleTap:(UITapGestureRecognizer *)recognizer
@@ -549,26 +600,33 @@
     [self AnimateGameScreen];
     
     //Handle game logic
-    if (random != 3) {
-        [self gameFailed];
+    if(isGameOver == NO){
+        if (random != 3) {
+            [self gameFailed];
+        }
+        else {
+            score++;
+            currentScoreCounter.text = [NSString stringWithFormat:@"%d",score];
+            counter = 0;
+            [self randomGen];
+        }
+        
     }
-    else {
-        score++;
-        currentScoreCounter.text = [NSString stringWithFormat:@"%d",score];
-        counter = 0;
-        [self randomGen];
-    }
+    
 }
 
 - (void)handlePinch:(UIPinchGestureRecognizer *)recognizer{
     
     //Check game logic
-    if (random != 4) {
-        [self gameFailed];
+    if(isGameOver == NO){
+        if (random != 4) {
+            [self gameFailed];
+        }
+        else {
+            counter = 0;
+        }
     }
-    else {
-        counter = 0;
-    }
+    
     
     //Animate
     POPSpringAnimation *scaleAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
@@ -581,7 +639,10 @@
     if(recognizer.state == UIGestureRecognizerStateEnded) {
         
         //Play sound
-        score++;
+        if(isGameOver == NO){
+            score++;
+        }
+        
         currentScoreCounter.text = [NSString stringWithFormat:@"%d",score];
         [self randomGen];
         [StretchID play];

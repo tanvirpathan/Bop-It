@@ -11,6 +11,8 @@
 #import <UIKitPlus/UIKitPlus.h>
 #import "RainScene.h"
 #import "Firefly.h"
+#import "HighscoreView.h"
+
 
 @interface IntroView () <POPAnimationDelegate>
 {
@@ -31,6 +33,22 @@
     [particleBackground presentScene:scene];
     [self buildLayout];
     
+}
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    NSMutableArray *highScores;
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"highscorekey"] mutableCopy]) {
+        highScores = [[[NSUserDefaults standardUserDefaults] objectForKey:@"highscorekey"] mutableCopy];
+    }
+    else{
+        highScores = @[@0,@0,@0,@0,@0,@0,@0,@0,@0,@0 ].mutableCopy;
+    }
+
+    if([segue.identifier isEqualToString:@"highScore"]){
+        HighscoreView *controller = (HighscoreView *)segue.destinationViewController;
+        //controller.testing = @[@(752),@(64),@(53),@(42),@(41),@(39),@(36),@(35),@(30),@(29) ];
+        controller.testing = highScores;
+        
+    }
 }
 
 - (void) buildLayout {
@@ -53,7 +71,7 @@
 }
 
 - (void)handleNewGame:(UIButton *)button{
-    NSLog(@"newGame");
+    NSLog(@"newGame");  
     
     POPSpringAnimation *layerScaleAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
     layerScaleAnimation.velocity = [NSValue valueWithCGSize:CGSizeMake(2.f, 2.f)];

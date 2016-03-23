@@ -40,11 +40,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Bop/PopViewController.m"
-            timestampString = "480218500.181699"
+            timestampString = "480392063.598906"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "628"
-            endingLineNumber = "628"
+            startingLineNumber = "686"
+            endingLineNumber = "686"
             landmarkName = "-sounds"
             landmarkType = "5">
          </BreakpointContent>
@@ -92,16 +92,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Bop/PopViewController.m"
-            timestampString = "480218384.017688"
+            filePath = "Bop/IntroView.m"
+            timestampString = "480390728.814334"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "369"
-            endingLineNumber = "369"
-            landmarkName = "-gameFailed"
+            startingLineNumber = "39"
+            endingLineNumber = "39"
+            landmarkName = "-prepareForSegue:sender:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -112,28 +112,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Bop/PopViewController.m"
-            timestampString = "480218384.017688"
+            timestampString = "480391920.697696"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "368"
-            endingLineNumber = "368"
-            landmarkName = "-gameFailed"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Bop/PopViewController.m"
-            timestampString = "480218782.76715"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "377"
-            endingLineNumber = "377"
-            landmarkName = "-gameFailed"
+            startingLineNumber = "712"
+            endingLineNumber = "712"
+            landmarkName = "-sounds"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
