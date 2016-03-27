@@ -59,13 +59,13 @@
     [self.view insertSubview:backgroundImageView atIndex:0];
     
     UIButton *newGame = [UIButton buttonWithType:UIButtonTypeCustom];
-    newGame.frame = CGRectMake(415, 570, 190, 50);
+    newGame.frame = CGRectMake(425, 560, 190, 50);
     [newGame setBackgroundImage:[UIImage imageNamed:@"newgame.png"] forState:UIControlStateNormal];
     [newGame addTarget:self action:@selector(handleNewGame:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:newGame];
     
     UIButton *highscore = [UIButton buttonWithType:UIButtonTypeCustom];
-    highscore.frame = CGRectMake(415, 640, 190, 50);
+    highscore.frame = CGRectMake(425, 640, 190, 50);
     [highscore setBackgroundImage:[UIImage imageNamed:@"highscore.png"] forState:UIControlStateNormal];
     [highscore addTarget:self action:@selector(handleHighscore:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:highscore];

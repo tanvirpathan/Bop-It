@@ -57,11 +57,17 @@
     UILabel *gearstats;
     UILabel *pullstats;
     
+    int x;
+    int y;
+    int opacity;
+    double duration;
+    double fromRotationValue;
+    double toRotationValue;
+    int LabelNumber;
     
-    
-    
-    
-    
+    POPBasicAnimation *layerOpacity;
+    POPSpringAnimation *positionAnimation;
+    double waitTime;
     
     
     
@@ -120,6 +126,7 @@
     [self BopIt];
     [self PinchIt];
     [self overlay];
+
     
 }
 
@@ -135,23 +142,42 @@
     
     UIImage *overlaypic = [UIImage imageNamed:@"overlay.png"];
     overlay=[[UIImageView alloc]initWithFrame:self.view.frame];
+    overlay.alpha = 0;
     overlay.image = overlaypic;
     [self.view addSubview:overlay];
+    
+}
+- (void) overlayAnimation {
+    POPBasicAnimation *overlayOpacity = [POPBasicAnimation animationWithPropertyNamed:kPOPLayerOpacity];
+    overlayOpacity.duration = duration;
+    overlayOpacity.beginTime = CACurrentMediaTime() + waitTime;
+    overlayOpacity.toValue = @(opacity);
+    
+    POPSpringAnimation *rotationAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerRotation];
+    rotationAnimation.beginTime = CACurrentMediaTime() + waitTime;
+    rotationAnimation.fromValue = @(fromRotationValue);
+    rotationAnimation.toValue = @(toRotationValue);
+    rotationAnimation.springBounciness = 20.f;
+    rotationAnimation.springSpeed = 5;
+    
+    [overlay.layer pop_addAnimation:rotationAnimation forKey:@"rotationAnimation"];
+    rotationAnimation.delegate = self;
+    
+    [overlay.layer pop_addAnimation:overlayOpacity forKey:@"overlayOpacity"];
+    overlayOpacity.delegate = self;
+
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if([segue.identifier isEqualToString:@"scoreScreen"]){
         HighscoreView *controller = (HighscoreView *)segue.destinationViewController;
-        //controller.testing = @[@(752),@(64),@(53),@(42),@(41),@(39),@(36),@(35),@(30),@(29) ];
         controller.testing = highScores;
         controller.bopstats = bopstats;
         controller.stretchstats = stretchstats;
         controller.flickstats = flickstats;
         controller.gearstats = gearstats;
         controller.pullstats = pullstats;
-        
-        
-
+    
     }
 }
 
@@ -162,10 +188,6 @@
     high = [defaults integerForKey:@"HighScore"];
     speed = 6;
     
-    //scoresDefaults = [NSUserDefaults standardUserDefaults];
-    //savedScores = [scoresDefaults mutableArrayValueForKey:@"HighScoreArray"];
-
-    
     //Background Image
     UIImage *backgroundImage = [UIImage imageNamed:@"backgroundGameScreen.png"];
     UIImageView *backgroundImageView=[[UIImageView alloc]initWithFrame:self.view.frame];
@@ -173,31 +195,27 @@
     [self.view insertSubview:backgroundImageView atIndex:0];
     
     Firefly *scene = [Firefly sceneWithSize:particleBackground.bounds.size];
-   // RainScene *scene2 = [RainScene sceneWithSize:particleBackground2.bounds.size];
-//    SmokeScene *scene = [SmokeScene sceneWithSize:particleBackground.bounds.size];
-//    
-//
     scene.scaleMode = SKSceneScaleModeAspectFill;
     particleBackground.allowsTransparency = YES;
     scene.backgroundColor = [UIColor clearColor];
     [particleBackground presentScene:scene];
 
     //Current Score Label
-    currentScoreLabel=[[UILabel alloc]initWithFrame:CGRectMake(55, 485, 485, 200)];
+    currentScoreLabel=[[UILabel alloc]initWithFrame:CGRectMake(55, 270, 485, 100)];
     [currentScoreLabel setText:@"GET READY"];
     currentScoreLabel.font = [UIFont fontWithName:@"HelveticaNeue-BoldItalic" size:28];
     [currentScoreLabel setTextColor:[UIColor whiteColor]];
     [self.view addSubview:currentScoreLabel];
     
     //High Score Label
-    HighScoreLabel=[[UILabel alloc]initWithFrame:CGRectMake(750, 25, 300, 100)];
+    HighScoreLabel=[[UILabel alloc]initWithFrame:CGRectMake(750, 270, 300, 100)];
     HighScoreLabel.text = [NSString stringWithFormat:@"HIGHSCORE: %ld",(long)high];
     HighScoreLabel.font = [UIFont fontWithName:@"HelveticaNeue-BoldItalic" size:28];
     [HighScoreLabel setTextColor:[UIColor whiteColor]];
     [self.view addSubview:HighScoreLabel];
     
     //Current Score Counter Label
-    currentScoreCounter=[[UILabel alloc]initWithFrame:CGRectMake(55, 580, 300, 200)];
+    currentScoreCounter=[[UILabel alloc]initWithFrame:CGRectMake(55, 300, 300, 200)];
     [currentScoreCounter setText:@"0"];//Set text in label.
     currentScoreCounter.font = [UIFont fontWithName:@"HelveticaNeue-BoldItalic" size:120];
     [currentScoreCounter setTextColor:[UIColor whiteColor]];
@@ -205,14 +223,14 @@
     
     //Score screen
     scoreScreen = [UIButton buttonWithType:UIButtonTypeCustom];
-    scoreScreen.frame = CGRectMake(810, 700, 190, 50);
+    scoreScreen.frame = CGRectMake(425, 640, 190, 50);
     [scoreScreen setBackgroundImage:[UIImage imageNamed:@"highscore.png"] forState:UIControlStateNormal];
     [scoreScreen addTarget:self action:@selector(handleScoreScreen:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:scoreScreen];
     
     //Start Button
     startButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    startButton.frame = CGRectMake(810, 640, 190, 50);
+    startButton.frame = CGRectMake(425, 560, 190, 50);
     [startButton setBackgroundImage:[UIImage imageNamed:@"start.png"] forState:UIControlStateNormal];
     [startButton addTarget:self action:@selector(buttonTouchDown:) forControlEvents:UIControlEventTouchDown];
     
@@ -232,12 +250,37 @@
 
 }
 
+- (void) LeftLabelAnimations{
+    
+    //[self LayerOpacity];
+    [self PositionAnimation];
+    if (LabelNumber == 1) {
+        positionAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(x, y)];
+        
+        [currentScoreLabel.layer pop_addAnimation:positionAnimation forKey:@"layerPositionAnimation"];
+    }
+    else if (LabelNumber == 2){
+        positionAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(x, y)];
+        [currentScoreCounter.layer pop_addAnimation:positionAnimation forKey:@"layerPositionAnimation"];
+
+    }
+    else{
+        positionAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(x, y)];
+        [HighScoreLabel.layer pop_addAnimation:positionAnimation forKey:@"layerPositionAnimation"];
+    }
+    
+
+    positionAnimation.delegate = self;
+
+}
+
 - (void) Flickit{
     
     //Make view
-    flick = [[UIImageView alloc] initWithFrame:CGRectMake(350, -38, 230, 230)];
+    flick = [[UIImageView alloc] initWithFrame:CGRectMake(600, 800, 230, 230)];
     [flick setImage:[UIImage imageNamed:@"flickit"]];
     flick.contentMode = UIViewContentModeScaleAspectFit;
+    flick.alpha = 0;
     flick.clipsToBounds = YES;
     flick.userInteractionEnabled = YES;
     
@@ -246,14 +289,30 @@
     [recognizer5 setDirection:( UISwipeGestureRecognizerDirectionDown)];
     [flick addGestureRecognizer:recognizer5];
     [self.view addSubview:flick];
+
+    
+    
+    
+}
+- (void) FlickitAnimation{
+    
+    [self LayerOpacity];
+    [self PositionAnimation];
+    
+    positionAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(x, y)];
+    [flick.layer pop_addAnimation:positionAnimation forKey:@"layerPositionAnimation"];
+    [flick.layer pop_addAnimation:layerOpacity forKey:@"layerOpacity"];
+    positionAnimation.delegate = self;
+    layerOpacity.delegate = self;
 }
 
 - (void) PullIt {
     
     //Make view
-    circle = [[UIImageView alloc] initWithFrame:CGRectMake(479, 625, 120, 110)];
+    circle = [[UIImageView alloc] initWithFrame:CGRectMake(479, 0, 120, 110)];
     [circle setImage:[UIImage imageNamed:@"pullitnew"]];
     circle.contentMode = UIViewContentModeScaleAspectFit;
+    circle.alpha = 0;
     circle.userInteractionEnabled = YES;
     circle.clipsToBounds = YES;
     
@@ -261,18 +320,32 @@
     UIPanGestureRecognizer *recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
     [circle addGestureRecognizer:recognizer];
     [self.view addSubview:circle];
+    
+
+}
+- (void) PullitAnimation{
+    
+    [self LayerOpacity];
+    [self PositionAnimation];
+    
+    positionAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(x, y)];
+    [circle.layer pop_addAnimation:positionAnimation forKey:@"layerPositionAnimation"];
+    [circle.layer pop_addAnimation:layerOpacity forKey:@"layerOpacity"];
+    positionAnimation.delegate = self;
+    layerOpacity.delegate = self;
 }
 
 - (void)SpinIt {
     
     //Make view
-    gear = [[UIImageView alloc] initWithFrame:CGRectMake(65, 254, 190, 190)];
+    gear = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 190, 190)];
     [gear setImage:[UIImage imageNamed:@"gearnew"]];
     gear.contentMode = UIViewContentModeScaleAspectFit;
+    gear.alpha = 0;
     gear.clipsToBounds = YES;
     gear.userInteractionEnabled = YES;
 
-
+    
     //Add gesture
     UISwipeGestureRecognizer *recognizer2 = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
     UISwipeGestureRecognizer *recognizer3 = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
@@ -281,14 +354,29 @@
     [gear addGestureRecognizer:recognizer2];
     [gear addGestureRecognizer:recognizer3];
     [self.view addSubview:gear];
+
     
+    
+}
+
+- (void) SpinitAnimation{
+    
+    [self LayerOpacity];
+    [self PositionAnimation];
+    
+    positionAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(x, y)];
+    [gear.layer pop_addAnimation:positionAnimation forKey:@"layerPositionAnimation"];
+    [gear.layer pop_addAnimation:layerOpacity forKey:@"layerOpacity"];
+    positionAnimation.delegate = self;
+    layerOpacity.delegate = self;
 }
 
 - (void) BopIt{
     
     //Make view
-    bopit = [[UIImageView alloc] initWithFrame:CGRectMake(420, 220, 220, 220)];
+    bopit = [[UIImageView alloc] initWithFrame:CGRectMake(0, 220, 220, 220)];
     bopit.contentMode = UIViewContentModeScaleAspectFit;
+    bopit.alpha = 0;
     bopit.userInteractionEnabled = YES;
     bopit.clipsToBounds = YES;
 
@@ -296,14 +384,28 @@
     UITapGestureRecognizer *recognizer4 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
     [bopit addGestureRecognizer:recognizer4];
     [self.view addSubview:bopit];
+
+   
+}
+- (void) BopitAnimation{
+    
+    [self LayerOpacity];
+    [self PositionAnimation];
+    
+    positionAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(x, y)];
+    [bopit.layer pop_addAnimation:positionAnimation forKey:@"layerPositionAnimation"];
+    [bopit.layer pop_addAnimation:layerOpacity forKey:@"layerOpacity"];
+    positionAnimation.delegate = self;
+    layerOpacity.delegate = self;
 }
 
 - (void) PinchIt{
     
     //Make view
-    pinchit = [[UIImageView alloc] initWithFrame:CGRectMake(720, 235, 140, 140)];
+    pinchit = [[UIImageView alloc] initWithFrame:CGRectMake(1000, 400, 140, 140)];
     [pinchit setImage:[UIImage imageNamed:@"pinchitnew"]];
     pinchit.contentMode = UIViewContentModeScaleAspectFit;
+    pinchit.alpha = 0;
     pinchit.userInteractionEnabled = YES;
     pinchit.clipsToBounds = YES;
     
@@ -311,18 +413,26 @@
     UIPinchGestureRecognizer *recognizer5 = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinch:)];
     [pinchit addGestureRecognizer:recognizer5];
     [self.view addSubview:pinchit];
+
     
+    
+}
+- (void) PinchitAnimation{
+    
+    [self LayerOpacity];
+    [self PositionAnimation];
+    
+    positionAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(x, y)];
+    [pinchit.layer pop_addAnimation:positionAnimation forKey:@"layerPositionAnimation"];
+    [pinchit.layer pop_addAnimation:layerOpacity forKey:@"layerOpacity"];
+    positionAnimation.delegate = self;
+    layerOpacity.delegate = self;
 }
 
 #pragma mark -
 #pragma mark Game Logic and Timer
 
 - (void)timerAction:(NSTimer *)timer {
-    
-    //Game prompt
-
-    
-
     
     //Speed change based on current user score
     //Motivation messages
@@ -397,13 +507,39 @@
     //Stops background music and plays failed game sound
     [audioplayer stop];
     [FailedID play];
+    opacity = 0;
+    duration = 0.1;
+    fromRotationValue = 0;
+    toRotationValue = 1.2;
+    [self overlayAnimation];
+    x = 600; y = 800;
+    [self FlickitAnimation];
+    x = 479; y = 0;
+    [self PullitAnimation];
+    x = 0; y = 0;
+    [self SpinitAnimation];
+    x = 0; y = 220;
+    [self BopitAnimation];
+    x = 1000; y = 400;
+    [self PinchitAnimation];
+    
+    x = 290; y = 320; LabelNumber = 1;
+    [self LeftLabelAnimations];
+    x = 200; y = 400; LabelNumber = 2;
+    [self LeftLabelAnimations];
+    x = 900; y = 320; LabelNumber = 3;
+    [self LeftLabelAnimations];
     
     opacityAnimation.toValue = @(1);
     [startButton.layer pop_addAnimation:opacityAnimation forKey:@"opacityAnimation"];
     [scoreScreen.layer pop_addAnimation:opacityAnimation forKey:@"opacityAnimation"];
+    
+    
+    
+    
     //Resets game logic
     isGameOver = YES;
-    currentScoreLabel.text = @"SO CLOSE!";
+    currentScoreLabel.text = @"YOUR SCORE:";
     startButton.userInteractionEnabled = YES;
     scoreScreen.userInteractionEnabled = YES;
     UIImage *gameOverText = [UIImage imageNamed:@"gameOver.png"];
@@ -414,7 +550,7 @@
     
     NSLog(@"[%d]",score);
     
-/////////
+
     NSMutableArray *sorted1 = [highScores sortedArrayUsingSelector:@selector(compare:)].mutableCopy;
     for (int i=0; i< [sorted1 count]; i++){
         NSLog(@"[%d]:%@",i,sorted1[i]);
@@ -440,7 +576,7 @@
     if (score >high) {
         [defaults setInteger:score forKey:@"HighScore"];
         [defaults synchronize];
-        HighScoreLabel.text = [NSString stringWithFormat:@"HIGHSCORE: %d",score];
+        HighScoreLabel.text = [NSString stringWithFormat:@"HIGHSCORE: %ld",(long)score];
     }
     
 }
@@ -465,19 +601,38 @@
 - (void)buttonTouchDown:(UIButton *)button{
     
     //Start background music
-    [self sounds];
+    waitTime = 0.1;
+    opacity = 1;
+    duration = 0.3;
+    fromRotationValue = 1.2;
+    toRotationValue = 0;
+    
+    x = 290; y = 610; LabelNumber = 1;
+    [self LeftLabelAnimations];
+    x = 200; y = 690; LabelNumber = 2;
+    [self LeftLabelAnimations];
+    x = 900; y = 70; LabelNumber = 3;
+    [self LeftLabelAnimations];
+    
+    [self overlayAnimation];
+    
+    x = 460; y = 80;
+    [self FlickitAnimation];
+    x = 539; y = 680;
+    [self PullitAnimation];
+    x = 150; y = 350;
+    [self SpinitAnimation];
+    x = 515; y = 340;
+    [self BopitAnimation];
+    x = 820; y = 330;
+    [self PinchitAnimation];
+    
+    
     audioplayer.currentTime = 0;
     [audioplayer play];
     startButton.userInteractionEnabled = NO;
     scoreScreen.userInteractionEnabled = NO;
     isGameOver = NO;
-    
-    //Animate start button
-//    POPSpringAnimation *layerScaleAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
-//    layerScaleAnimation.velocity = [NSValue valueWithCGSize:CGSizeMake(2.f, 2.f)];
-//    layerScaleAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(1.f, 1.f)];
-//    layerScaleAnimation.springBounciness = 15.f;
-//    [button.layer pop_addAnimation:layerScaleAnimation forKey:@"layerScaleAnimation"];
     
     opacityAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPLayerOpacity];
     opacityAnimation.toValue = @(0);
@@ -579,7 +734,7 @@
     [recognizer setTranslation:CGPointMake(0, 0) inView:self.view];
 
     //Check if user panned far enough
-    if (((recognizer.view.center.x + translation.x) <= 300) || (recognizer.view.center.y + translation.y) <= 500) {
+    if (((recognizer.view.center.x + translation.x) <= 450) || (recognizer.view.center.y + translation.y) <= 500) {
         
         
         //Play sound
@@ -618,11 +773,11 @@
         }
     }
     CGPoint velocity = [recognizer velocityInView:self.view];
-    POPSpringAnimation *positionAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPosition];
-    positionAnimation.velocity = [NSValue valueWithCGPoint:velocity];
-    positionAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(539, 680)];
-    [circle.layer pop_addAnimation:positionAnimation forKey:@"layerPositionAnimation"];
-    positionAnimation.delegate = self;
+    POPSpringAnimation *returnPan = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPosition];
+    returnPan.velocity = [NSValue valueWithCGPoint:velocity];
+    returnPan.toValue = [NSValue valueWithCGPoint:CGPointMake(539, 680)];
+    [circle.layer pop_addAnimation:returnPan forKey:@"returnPan"];
+    returnPan.delegate = self;
 
 }
 
@@ -687,16 +842,27 @@
     
 }
 - (void) AnimateGameScreen{
-    POPSpringAnimation *positionAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
-    positionAnimation.velocity = @400;
-    positionAnimation.springBounciness = 5.f;
-    [positionAnimation setCompletionBlock:^(POPAnimation *animation, BOOL finished) {
+    POPSpringAnimation *animateGameScreen = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
+    animateGameScreen.velocity = @400;
+    animateGameScreen.springBounciness = 5.f;
+    [animateGameScreen setCompletionBlock:^(POPAnimation *animation, BOOL finished) {
         bopit.userInteractionEnabled = YES;
     }];
-    [gameStatus.layer pop_addAnimation:positionAnimation forKey:@"positionAnimation"];
-    positionAnimation.delegate = self;
+    [gameStatus.layer pop_addAnimation:animateGameScreen forKey:@"positionAnimation"];
+    animateGameScreen.delegate = self;
 }
-
+- (void) LayerOpacity{
+    layerOpacity = [POPBasicAnimation animationWithPropertyNamed:kPOPLayerOpacity];
+    layerOpacity.duration = duration;
+    layerOpacity.beginTime = CACurrentMediaTime() + waitTime;
+    layerOpacity.toValue = @(opacity);
+}
+- (void) PositionAnimation{
+    positionAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPosition];
+    positionAnimation.beginTime = CACurrentMediaTime() + waitTime;
+    positionAnimation.springBounciness = 13.f;
+    positionAnimation.springSpeed = 5;
+}
 - (void) sounds{
     
     //Flick it sound
