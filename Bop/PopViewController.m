@@ -35,6 +35,7 @@
     UIImageView* gameStatus;
     UIImageView* overlay;
     UILabel* currentScoreLabel;
+    UILabel* HighScoreCounter;
     UILabel* HighScoreLabel;
     UILabel* currentScoreCounter;
     NSUserDefaults *defaults;
@@ -208,14 +209,21 @@
     [self.view addSubview:currentScoreLabel];
     
     //High Score Label
-    HighScoreLabel=[[UILabel alloc]initWithFrame:CGRectMake(750, 270, 300, 100)];
-    HighScoreLabel.text = [NSString stringWithFormat:@"HIGHSCORE: %ld",(long)high];
+    HighScoreLabel=[[UILabel alloc]initWithFrame:CGRectMake(890, 270, 485, 100)];
+    [HighScoreLabel setText:@"BEST"];
     HighScoreLabel.font = [UIFont fontWithName:@"HelveticaNeue-BoldItalic" size:28];
     [HighScoreLabel setTextColor:[UIColor whiteColor]];
     [self.view addSubview:HighScoreLabel];
     
+    //High Score Counter
+    HighScoreCounter=[[UILabel alloc]initWithFrame:CGRectMake(835, 300, 300, 200)];
+    HighScoreCounter.text = [NSString stringWithFormat:@"%ld",(long)high];
+    HighScoreCounter.font = [UIFont fontWithName:@"HelveticaNeue-BoldItalic" size:120];
+    [HighScoreCounter setTextColor:[UIColor whiteColor]];
+    [self.view addSubview:HighScoreCounter];
+    
     //Current Score Counter Label
-    currentScoreCounter=[[UILabel alloc]initWithFrame:CGRectMake(55, 300, 300, 200)];
+    currentScoreCounter=[[UILabel alloc]initWithFrame:CGRectMake(45, 300, 300, 200)];
     [currentScoreCounter setText:@"0"];//Set text in label.
     currentScoreCounter.font = [UIFont fontWithName:@"HelveticaNeue-BoldItalic" size:120];
     [currentScoreCounter setTextColor:[UIColor whiteColor]];
@@ -226,11 +234,11 @@
     scoreScreen.frame = CGRectMake(425, 640, 190, 50);
     [scoreScreen setBackgroundImage:[UIImage imageNamed:@"highscore.png"] forState:UIControlStateNormal];
     [scoreScreen addTarget:self action:@selector(handleScoreScreen:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:scoreScreen];
+    //[self.view addSubview:scoreScreen];
     
     //Start Button
     startButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    startButton.frame = CGRectMake(425, 560, 190, 50);
+    startButton.frame = CGRectMake(420, 580, 190, 50);
     [startButton setBackgroundImage:[UIImage imageNamed:@"start.png"] forState:UIControlStateNormal];
     [startButton addTarget:self action:@selector(buttonTouchDown:) forControlEvents:UIControlEventTouchDown];
     
@@ -263,6 +271,10 @@
         positionAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(x, y)];
         [currentScoreCounter.layer pop_addAnimation:positionAnimation forKey:@"layerPositionAnimation"];
 
+    }
+    else if (LabelNumber == 3){
+        positionAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(x, y)];
+        [HighScoreCounter.layer pop_addAnimation:positionAnimation forKey:@"layerPositionAnimation"];
     }
     else{
         positionAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(x, y)];
@@ -525,9 +537,11 @@
     
     x = 290; y = 320; LabelNumber = 1;
     [self LeftLabelAnimations];
-    x = 200; y = 400; LabelNumber = 2;
+    x = 190; y = 400; LabelNumber = 2;
     [self LeftLabelAnimations];
-    x = 900; y = 320; LabelNumber = 3;
+    x = 980; y = 400; LabelNumber = 3;
+    [self LeftLabelAnimations];
+    x = 1135; y = 320; LabelNumber = 4;
     [self LeftLabelAnimations];
     
     opacityAnimation.toValue = @(1);
@@ -539,7 +553,7 @@
     
     //Resets game logic
     isGameOver = YES;
-    currentScoreLabel.text = @"YOUR SCORE:";
+    currentScoreLabel.text = @"SCORE";
     startButton.userInteractionEnabled = YES;
     scoreScreen.userInteractionEnabled = YES;
     UIImage *gameOverText = [UIImage imageNamed:@"gameOver.png"];
@@ -576,7 +590,7 @@
     if (score >high) {
         [defaults setInteger:score forKey:@"HighScore"];
         [defaults synchronize];
-        HighScoreLabel.text = [NSString stringWithFormat:@"HIGHSCORE: %ld",(long)score];
+        HighScoreCounter.text = [NSString stringWithFormat:@"BEST %ld",(long)score];
     }
     
 }
@@ -611,7 +625,9 @@
     [self LeftLabelAnimations];
     x = 200; y = 690; LabelNumber = 2;
     [self LeftLabelAnimations];
-    x = 900; y = 70; LabelNumber = 3;
+    x = 990; y = 140; LabelNumber = 3;
+    [self LeftLabelAnimations];
+    x = 1150; y = 60; LabelNumber = 4;
     [self LeftLabelAnimations];
     
     [self overlayAnimation];
