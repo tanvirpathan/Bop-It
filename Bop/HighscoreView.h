@@ -7,9 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@import SpriteKit;
 @interface HighscoreView : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (copy, nonatomic) NSArray *scoreHistory;
 @property (nonatomic, retain) NSArray *testing;
+@property(nonatomic) BOOL *didEnterFromMenu;
+
+@property (nonatomic, strong) UILabel *bopstats;
+@property (nonatomic, strong) UILabel *stretchstats;
+@property (nonatomic, strong) UILabel *flickstats;
+@property (nonatomic, strong) UILabel *gearstats;
+@property (nonatomic, strong) UILabel *pullstats;
 @end

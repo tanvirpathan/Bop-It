@@ -18,7 +18,7 @@
         SKEmitterNode *firefly = [NSKeyedUnarchiver unarchiveObjectWithFile:emitterPath];
         firefly.position = CGPointMake(200, -100);
         
-        firefly.name = @"particleRain";
+        firefly.name = @"particleFirefly";
         firefly.targetNode = self.scene;
         [self addChild:firefly];
     }

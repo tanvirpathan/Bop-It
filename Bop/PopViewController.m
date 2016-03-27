@@ -51,6 +51,19 @@
     UIImage *spinitText;
     UIImage *flickitText;
     
+    UILabel *bopstats;
+    UILabel *stretchstats;
+    UILabel *flickstats;
+    UILabel *gearstats;
+    UILabel *pullstats;
+    
+    
+    
+    
+    
+    
+    
+    
     
     int counter;
     NSInteger score;
@@ -74,6 +87,21 @@
    
     // Do any additional setup after loading the view.
     [super viewDidLoad];
+    _didEnterFromMenu = NO;
+     bopstats= [[UILabel alloc]init];
+    stretchstats= [[UILabel alloc]init];
+    flickstats= [[UILabel alloc]init];
+    gearstats= [[UILabel alloc]init];
+    pullstats= [[UILabel alloc]init];
+    
+    bopstats.text = @"3";
+    
+    stretchstats.text = @"34";
+    flickstats.text = @"34";
+    gearstats.text = @"32";
+    pullstats.text = @"345";
+    
+    
     
     
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"highscorekey"] mutableCopy]) {
@@ -116,6 +144,13 @@
         HighscoreView *controller = (HighscoreView *)segue.destinationViewController;
         //controller.testing = @[@(752),@(64),@(53),@(42),@(41),@(39),@(36),@(35),@(30),@(29) ];
         controller.testing = highScores;
+        controller.bopstats = bopstats;
+        controller.stretchstats = stretchstats;
+        controller.flickstats = flickstats;
+        controller.gearstats = gearstats;
+        controller.pullstats = pullstats;
+        
+        
 
     }
 }

@@ -53,13 +53,20 @@
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <variation key="heightClass=regular-widthClass=regular" fixedFrame="YES">
-                                    <rect key="frame" x="20" y="78" width="365" height="483"/>
+                                    <rect key="frame" x="61" y="97" width="264" height="407"/>
                                 </variation>
                                 <connections>
                                     <outlet property="dataSource" destination="0cR-JF-cVS" id="fuI-nG-8pe"/>
                                     <outlet property="delegate" destination="0cR-JF-cVS" id="Qdx-KT-gT6"/>
                                 </connections>
                             </tableView>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sPE-h4-kqG" customClass="SKView">
+                                <rect key="frame" x="-300" y="-200" width="1200" height="1000"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <variation key="heightClass=regular-widthClass=regular" fixedFrame="YES">
+                                    <rect key="frame" x="0.0" y="-300" width="1200" height="1100"/>
+                                </variation>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <variation key="default">
@@ -74,6 +81,7 @@
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="particleBackground" destination="sPE-h4-kqG" id="FfQ-r4-7hE"/>
                         <segue destination="FJM-MW-XFS" kind="show" identifier="gameScreen" animates="NO" id="Vqp-f3-Gc9"/>
                     </connections>
                 </viewController>
@@ -110,11 +118,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JBP-Kv-EQo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="852" y="-1950"/>
+            <point key="canvasLocation" x="696" y="-1960.5"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="WBS-1J-ucB"/>
-        <segue reference="yGh-j8-9xE"/>
+        <segue reference="KkM-mP-CiQ"/>
+        <segue reference="Vqp-f3-Gc9"/>
     </inferredMetricsTieBreakers>
 </document>
