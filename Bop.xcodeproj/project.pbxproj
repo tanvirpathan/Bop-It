@@ -36,6 +36,11 @@
 		B9D9847E1C9D8F9E0040B0E8 /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = B9D9847C1C9D8F9E0040B0E8 /* spark.png */; };
 		B9D984851C9DD06C0040B0E8 /* Smoke.sks in Resources */ = {isa = PBXBuildFile; fileRef = B9D984841C9DD06C0040B0E8 /* Smoke.sks */; };
 		B9D984881C9DD1010040B0E8 /* SmokeScene.m in Sources */ = {isa = PBXBuildFile; fileRef = B9D984871C9DD1010040B0E8 /* SmokeScene.m */; };
+		B9FCB05E1CB052C200FA0163 /* MCNewCustomLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = B9FCB0541CB052C200FA0163 /* MCNewCustomLayer.m */; };
+		B9FCB05F1CB052C200FA0163 /* MCNewCustomLayeredView.m in Sources */ = {isa = PBXBuildFile; fileRef = B9FCB0571CB052C200FA0163 /* MCNewCustomLayeredView.m */; };
+		B9FCB0601CB052C200FA0163 /* MCPercentageDoughnutView.m in Sources */ = {isa = PBXBuildFile; fileRef = B9FCB0591CB052C200FA0163 /* MCPercentageDoughnutView.m */; };
+		B9FCB0611CB052C200FA0163 /* MCSliceLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = B9FCB05B1CB052C200FA0163 /* MCSliceLayer.m */; };
+		B9FCB0621CB052C200FA0163 /* MCUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = B9FCB05D1CB052C200FA0163 /* MCUtil.m */; };
 		BD1348F0007A0B0435475759 /* Pods_Bop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68940ECCD3CAFD9BF0BA2894 /* Pods_Bop.framework */; };
 /* End PBXBuildFile section */
 
@@ -101,6 +106,18 @@
 		B9D984841C9DD06C0040B0E8 /* Smoke.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Smoke.sks; sourceTree = "<group>"; };
 		B9D984861C9DD1010040B0E8 /* SmokeScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmokeScene.h; sourceTree = "<group>"; };
 		B9D984871C9DD1010040B0E8 /* SmokeScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmokeScene.m; sourceTree = "<group>"; };
+		B9FCB0521CB052C200FA0163 /* MCCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCCore.h; sourceTree = "<group>"; };
+		B9FCB0531CB052C200FA0163 /* MCNewCustomLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCNewCustomLayer.h; sourceTree = "<group>"; };
+		B9FCB0541CB052C200FA0163 /* MCNewCustomLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCNewCustomLayer.m; sourceTree = "<group>"; };
+		B9FCB0551CB052C200FA0163 /* MCNewCustomLayeredView+MCCustomLayeredViewSubclass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MCNewCustomLayeredView+MCCustomLayeredViewSubclass.h"; sourceTree = "<group>"; };
+		B9FCB0561CB052C200FA0163 /* MCNewCustomLayeredView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCNewCustomLayeredView.h; sourceTree = "<group>"; };
+		B9FCB0571CB052C200FA0163 /* MCNewCustomLayeredView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCNewCustomLayeredView.m; sourceTree = "<group>"; };
+		B9FCB0581CB052C200FA0163 /* MCPercentageDoughnutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCPercentageDoughnutView.h; sourceTree = "<group>"; };
+		B9FCB0591CB052C200FA0163 /* MCPercentageDoughnutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCPercentageDoughnutView.m; sourceTree = "<group>"; };
+		B9FCB05A1CB052C200FA0163 /* MCSliceLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCSliceLayer.h; sourceTree = "<group>"; };
+		B9FCB05B1CB052C200FA0163 /* MCSliceLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCSliceLayer.m; sourceTree = "<group>"; };
+		B9FCB05C1CB052C200FA0163 /* MCUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCUtil.h; sourceTree = "<group>"; };
+		B9FCB05D1CB052C200FA0163 /* MCUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCUtil.m; sourceTree = "<group>"; };
 		C4FCD835B2C3A9960DD10A8F /* Pods-Bop.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bop.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Bop/Pods-Bop.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -177,6 +194,7 @@
 		B90C494C1C5CEF2000DA64B2 /* Bop */ = {
 			isa = PBXGroup;
 			children = (
+				B9FCB0511CB052C200FA0163 /* src */,
 				B9450C191C9EE2AA00AC773A /* Animations */,
 				B9D983FE1C96189A0040B0E8 /* Sounds */,
 				B90C494D1C5CEF2000DA64B2 /* AppDelegate.swift */,
@@ -245,6 +263,25 @@
 				B9D983F41C95D0B70040B0E8 /* stretch.mp3 */,
 			);
 			name = Sounds;
+			sourceTree = "<group>";
+		};
+		B9FCB0511CB052C200FA0163 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				B9FCB0521CB052C200FA0163 /* MCCore.h */,
+				B9FCB0531CB052C200FA0163 /* MCNewCustomLayer.h */,
+				B9FCB0541CB052C200FA0163 /* MCNewCustomLayer.m */,
+				B9FCB0551CB052C200FA0163 /* MCNewCustomLayeredView+MCCustomLayeredViewSubclass.h */,
+				B9FCB0561CB052C200FA0163 /* MCNewCustomLayeredView.h */,
+				B9FCB0571CB052C200FA0163 /* MCNewCustomLayeredView.m */,
+				B9FCB0581CB052C200FA0163 /* MCPercentageDoughnutView.h */,
+				B9FCB0591CB052C200FA0163 /* MCPercentageDoughnutView.m */,
+				B9FCB05A1CB052C200FA0163 /* MCSliceLayer.h */,
+				B9FCB05B1CB052C200FA0163 /* MCSliceLayer.m */,
+				B9FCB05C1CB052C200FA0163 /* MCUtil.h */,
+				B9FCB05D1CB052C200FA0163 /* MCUtil.m */,
+			);
+			path = src;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -449,9 +486,14 @@
 				B9450C161C9E157700AC773A /* Firefly.m in Sources */,
 				B935E4E51C8C720F00B0C08C /* IntroView.m in Sources */,
 				B9450C1E1C9F01DB00AC773A /* HighscoreView.m in Sources */,
+				B9FCB0601CB052C200FA0163 /* MCPercentageDoughnutView.m in Sources */,
+				B9FCB0621CB052C200FA0163 /* MCUtil.m in Sources */,
+				B9FCB0611CB052C200FA0163 /* MCSliceLayer.m in Sources */,
 				B9D984661C9D76B90040B0E8 /* RainScene.m in Sources */,
 				B90C494E1C5CEF2000DA64B2 /* AppDelegate.swift in Sources */,
 				B9D984881C9DD1010040B0E8 /* SmokeScene.m in Sources */,
+				B9FCB05F1CB052C200FA0163 /* MCNewCustomLayeredView.m in Sources */,
+				B9FCB05E1CB052C200FA0163 /* MCNewCustomLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

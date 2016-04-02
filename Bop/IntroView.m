@@ -15,11 +15,14 @@
 
 
 
+
 @interface IntroView () <POPAnimationDelegate>
 {
     
     __weak IBOutlet SKView *particleBackground;
-    
+    NSTimer *myTimer2;
+
+    double percent;
 }
 @end
 @implementation IntroView
@@ -68,8 +71,17 @@
     highscore.frame = CGRectMake(425, 640, 190, 50);
     [highscore setBackgroundImage:[UIImage imageNamed:@"highscore.png"] forState:UIControlStateNormal];
     [highscore addTarget:self action:@selector(handleHighscore:) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    
+    
+
+
     //[self.view addSubview:highscore];
 }
+
+
+
 
 - (void)handleNewGame:(UIButton *)button{
 

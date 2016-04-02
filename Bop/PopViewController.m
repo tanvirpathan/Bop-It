@@ -13,7 +13,7 @@
 //#import "SmokeScene.h"
 #import "Firefly.h"
 #import "HighscoreView.h"
-
+#import "MCPercentageDoughnutView.h"
 
 @interface PopViewController () <POPAnimationDelegate>
 {
@@ -70,7 +70,7 @@
     POPSpringAnimation *positionAnimation;
     double waitTime;
     
-    
+    MCPercentageDoughnutView *percentageDoughnut;
     
     int counter;
     NSInteger score;
@@ -81,8 +81,8 @@
     
     POPBasicAnimation *opacityAnimation;
     //NSMutableArray *savedScores;
-
-
+    
+    
 }
 @end
 
@@ -91,11 +91,11 @@
 
 - (void)viewDidLoad {
     
-   
+    
     // Do any additional setup after loading the view.
     [super viewDidLoad];
     _didEnterFromMenu = NO;
-     bopstats= [[UILabel alloc]init];
+    bopstats= [[UILabel alloc]init];
     stretchstats= [[UILabel alloc]init];
     flickstats= [[UILabel alloc]init];
     gearstats= [[UILabel alloc]init];
@@ -118,7 +118,7 @@
         highScores = @[@0,@0,@0,@0,@0,@0,@0,@0,@0,@0 ].mutableCopy;
     }
     
-
+    
     [self sounds];
     [self buildLayout];
     [self PullIt];
@@ -127,7 +127,7 @@
     [self BopIt];
     [self PinchIt];
     [self overlay];
-
+    
     
 }
 
@@ -166,7 +166,7 @@
     
     [overlay.layer pop_addAnimation:overlayOpacity forKey:@"overlayOpacity"];
     overlayOpacity.delegate = self;
-
+    
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
@@ -178,7 +178,7 @@
         controller.flickstats = flickstats;
         controller.gearstats = gearstats;
         controller.pullstats = pullstats;
-    
+        
     }
 }
 
@@ -200,7 +200,7 @@
     particleBackground.allowsTransparency = YES;
     scene.backgroundColor = [UIColor clearColor];
     [particleBackground presentScene:scene];
-
+    
     //Current Score Label
     currentScoreLabel=[[UILabel alloc]initWithFrame:CGRectMake(55, 270, 485, 100)];
     [currentScoreLabel setText:@"GET READY"];
@@ -251,11 +251,21 @@
     spinitText = [UIImage imageNamed:@"spinitText.png"];
     flickitText = [UIImage imageNamed:@"flickitText.png"];
     
+    //Progress Bar
+    percentageDoughnut = [[MCPercentageDoughnutView alloc] initWithFrame:CGRectMake(342, 155, 348, 348)];
+    percentageDoughnut.linePercentage = 0.04;
+    percentageDoughnut.alpha = 0;
+    percentageDoughnut.fillColor = [UIColor orangeColor];
+    percentageDoughnut.initialPercentage = 0;
+    percentageDoughnut.animatesBegining = NO;
+    [self.view addSubview:percentageDoughnut];
+    
+    //Game Status
     gameStatus=[[UIImageView alloc]initWithFrame:self.view.frame];
     UIImage *pressStart = [UIImage imageNamed:@"pressStart.png"];
     gameStatus.image = pressStart;
     [self.view addSubview:gameStatus];
-
+    
 }
 
 - (void) LeftLabelAnimations{
@@ -270,7 +280,7 @@
     else if (LabelNumber == 2){
         positionAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(x, y)];
         [currentScoreCounter.layer pop_addAnimation:positionAnimation forKey:@"layerPositionAnimation"];
-
+        
     }
     else if (LabelNumber == 3){
         positionAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(x, y)];
@@ -281,9 +291,9 @@
         [HighScoreLabel.layer pop_addAnimation:positionAnimation forKey:@"layerPositionAnimation"];
     }
     
-
+    
     positionAnimation.delegate = self;
-
+    
 }
 
 - (void) Flickit{
@@ -301,7 +311,7 @@
     [recognizer5 setDirection:( UISwipeGestureRecognizerDirectionDown)];
     [flick addGestureRecognizer:recognizer5];
     [self.view addSubview:flick];
-
+    
     
     
     
@@ -333,7 +343,7 @@
     [circle addGestureRecognizer:recognizer];
     [self.view addSubview:circle];
     
-
+    
 }
 - (void) PullitAnimation{
     
@@ -356,7 +366,7 @@
     gear.alpha = 0;
     gear.clipsToBounds = YES;
     gear.userInteractionEnabled = YES;
-
+    
     
     //Add gesture
     UISwipeGestureRecognizer *recognizer2 = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
@@ -366,7 +376,7 @@
     [gear addGestureRecognizer:recognizer2];
     [gear addGestureRecognizer:recognizer3];
     [self.view addSubview:gear];
-
+    
     
     
 }
@@ -391,13 +401,13 @@
     bopit.alpha = 0;
     bopit.userInteractionEnabled = YES;
     bopit.clipsToBounds = YES;
-
+    
     //Add gesture
     UITapGestureRecognizer *recognizer4 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
     [bopit addGestureRecognizer:recognizer4];
     [self.view addSubview:bopit];
-
-   
+    
+    
 }
 - (void) BopitAnimation{
     
@@ -425,7 +435,7 @@
     UIPinchGestureRecognizer *recognizer5 = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinch:)];
     [pinchit addGestureRecognizer:recognizer5];
     [self.view addSubview:pinchit];
-
+    
     
     
 }
@@ -439,6 +449,26 @@
     [pinchit.layer pop_addAnimation:layerOpacity forKey:@"layerOpacity"];
     positionAnimation.delegate = self;
     layerOpacity.delegate = self;
+}
+- (void) ProgressBarAnimation {
+    POPBasicAnimation *overlayOpacity = [POPBasicAnimation animationWithPropertyNamed:kPOPLayerOpacity];
+    overlayOpacity.duration = duration;
+    overlayOpacity.beginTime = CACurrentMediaTime() + waitTime;
+    overlayOpacity.toValue = @(opacity);
+    
+    POPSpringAnimation *rotationAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerRotation];
+    rotationAnimation.beginTime = CACurrentMediaTime() + waitTime;
+    rotationAnimation.fromValue = @(fromRotationValue);
+    rotationAnimation.toValue = @(toRotationValue);
+    rotationAnimation.springBounciness = 20.f;
+    rotationAnimation.springSpeed = 5;
+    
+    [percentageDoughnut.layer pop_addAnimation:rotationAnimation forKey:@"rotationAnimation"];
+    rotationAnimation.delegate = self;
+    
+    [percentageDoughnut.layer pop_addAnimation:overlayOpacity forKey:@"overlayOpacity"];
+    overlayOpacity.delegate = self;
+    
 }
 
 #pragma mark -
@@ -454,30 +484,34 @@
     }
     if (score == 20) {
         currentScoreLabel.text = @"IT'S GETTING FASTER!";
-
+        
         speed = 4;
     }
     if (score == 35) {
         currentScoreLabel.text = @"WOW!";
-
+        
         speed = 3;
     }
     if (score == 50) {
         currentScoreLabel.text = @"ON FIREEEE";
-
+        
         speed = 2;
     }
     if (score == 75) {
         currentScoreLabel.text = @"LEGENDARY";
-       
+        
     }
-    
+    if (percentageDoughnut.percentage == 0){
+        percentageDoughnut.animationDuration = speed*0.62;
+        percentageDoughnut.percentage = 1;
+        
+    }
     //Checks if user is within the game timer
     if (counter >= speed) {
         [self gameFailed];
     }
     counter++;
-   
+    
 }
 
 //Generates random number
@@ -511,11 +545,12 @@
         }
         [self AnimateGameScreen];
     }
-
+    
 }
 
 - (void) gameFailed{
-    
+    percentageDoughnut.percentage = 0;
+
     //Stops background music and plays failed game sound
     [audioplayer stop];
     [FailedID play];
@@ -523,7 +558,11 @@
     duration = 0.1;
     fromRotationValue = 0;
     toRotationValue = 1.2;
+    
     [self overlayAnimation];
+    waitTime = 3.72;
+    [self ProgressBarAnimation];
+    waitTime = 0.1;
     x = 600; y = 800;
     [self FlickitAnimation];
     x = 479; y = 0;
@@ -564,10 +603,10 @@
     
     NSLog(@"[%d]",score);
     
-
+    
     NSMutableArray *sorted1 = [highScores sortedArrayUsingSelector:@selector(compare:)].mutableCopy;
     for (int i=0; i< [sorted1 count]; i++){
-        NSLog(@"[%d]:%@",i,sorted1[i]);
+        //NSLog(@"[%d]:%@",i,sorted1[i]);
         if (score >= [sorted1[0] intValue]) {
             sorted1[0] = @(score);
         }
@@ -580,17 +619,17 @@
     highScores =  [sorted1 sortedArrayUsingDescriptors: [NSArray arrayWithObject: sortOrder]].mutableCopy;
     for (int i=0; i< [highScores count]; i++){
         NSLog(@"[%d]:%@",i,highScores[i]);
-       
+        
     }
     [[NSUserDefaults standardUserDefaults] setObject:highScores forKey:@"highscorekey"];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         [[NSUserDefaults standardUserDefaults] synchronize];
     });
-
+    
     if (score >high) {
         [defaults setInteger:score forKey:@"HighScore"];
         [defaults synchronize];
-        HighScoreCounter.text = [NSString stringWithFormat:@"BEST %ld",(long)score];
+        HighScoreCounter.text = [NSString stringWithFormat:@"%ld",(long)score];
     }
     
 }
@@ -598,15 +637,6 @@
 #pragma mark Handle User Interactions
 
 - (void)handleScoreScreen:(UIButton *)button{
-    
-//    POPSpringAnimation *layerScaleAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
-//    layerScaleAnimation.velocity = [NSValue valueWithCGSize:CGSizeMake(2.f, 2.f)];
-//    layerScaleAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(1.f, 1.f)];
-//    layerScaleAnimation.springBounciness = 15.f;
-//    [button.layer pop_addAnimation:layerScaleAnimation forKey:@"layerScaleAnimation"];
-
-    
-    
     
     [self performSegueWithIdentifier:@"scoreScreen" sender:self];
     
@@ -643,6 +673,9 @@
     x = 820; y = 330;
     [self PinchitAnimation];
     
+    waitTime = 0.7;
+    [self ProgressBarAnimation];
+    waitTime = 0.1;
     
     audioplayer.currentTime = 0;
     [audioplayer play];
@@ -655,7 +688,7 @@
     [button.layer pop_addAnimation:opacityAnimation forKey:@"opacityAnimation"];
     [scoreScreen.layer pop_addAnimation:opacityAnimation forKey:@"opacityAnimation"];
     
-    
+    percentageDoughnut.percentage = 0;
     //Set game logic
     score = 0;
     currentScoreCounter.text = @"0";
@@ -691,7 +724,7 @@
         [gear setTransform:CGAffineTransformRotate(gear.transform, -M_PI)];
     }completion:^(BOOL finished){
     }];
-
+    
     //Handle game logic
     if(isGameOver == NO){
         if (random != 2) {
@@ -701,6 +734,8 @@
             score++;
             currentScoreCounter.text = [NSString stringWithFormat:@"%d",score];
             counter = 0;
+            percentageDoughnut.percentage = 0;
+            percentageDoughnut.animationDuration = 0;
             [self randomGen];
         }
         
@@ -714,15 +749,15 @@
     //AudioServicesPlaySystemSound(BoingSoundID);
     [BoingSoundID play];
     
- 
-        [UIView animateWithDuration:0.15f delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-            [flick setTransform:CGAffineTransformRotate(flick.transform, M_PI/5)];
-        }completion:^(BOOL finished){
-        }];
-        [UIView animateWithDuration:0.15f delay:0.15 options:UIViewAnimationOptionCurveEaseOut animations:^{
-            [flick setTransform:CGAffineTransformRotate(flick.transform, -M_PI/5)];
-        }completion:^(BOOL finished){
-        }];
+    
+    [UIView animateWithDuration:0.15f delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [flick setTransform:CGAffineTransformRotate(flick.transform, M_PI/5)];
+    }completion:^(BOOL finished){
+    }];
+    [UIView animateWithDuration:0.15f delay:0.15 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [flick setTransform:CGAffineTransformRotate(flick.transform, -M_PI/5)];
+    }completion:^(BOOL finished){
+    }];
     
     
     //Handle game logic
@@ -734,6 +769,8 @@
             score++;
             currentScoreCounter.text = [NSString stringWithFormat:@"%d",score];
             counter = 0;
+            percentageDoughnut.percentage = 0;
+            percentageDoughnut.animationDuration = 0;
             [self randomGen];
         }
         
@@ -748,7 +785,7 @@
     CGPoint translation = [recognizer translationInView:self.view];
     recognizer.view.center = CGPointMake(recognizer.view.center.x + translation.x,recognizer.view.center.y + translation.y);
     [recognizer setTranslation:CGPointMake(0, 0) inView:self.view];
-
+    
     //Check if user panned far enough
     if (((recognizer.view.center.x + translation.x) <= 450) || (recognizer.view.center.y + translation.y) <= 500) {
         
@@ -759,7 +796,7 @@
         passedBoundaries = YES;
         
     }
-   
+    
     //Handle animation when user lets go
     if(recognizer.state == UIGestureRecognizerStateEnded) {
         
@@ -777,15 +814,17 @@
                     score++;
                     currentScoreCounter.text = [NSString stringWithFormat:@"%d",score];
                     counter = 0;
+                    percentageDoughnut.percentage = 0;
+                    percentageDoughnut.animationDuration = 0;
                     [self randomGen];
                 }
                 
             }
             
             passedBoundaries = NO;
-      
-        //Animate back into position
-        
+            
+            //Animate back into position
+            
         }
     }
     CGPoint velocity = [recognizer velocityInView:self.view];
@@ -794,7 +833,7 @@
     returnPan.toValue = [NSValue valueWithCGPoint:CGPointMake(539, 680)];
     [circle.layer pop_addAnimation:returnPan forKey:@"returnPan"];
     returnPan.delegate = self;
-
+    
 }
 
 - (void)handleTap:(UITapGestureRecognizer *)recognizer
@@ -814,6 +853,8 @@
             score++;
             currentScoreCounter.text = [NSString stringWithFormat:@"%d",score];
             counter = 0;
+            percentageDoughnut.percentage = 0;
+            percentageDoughnut.animationDuration = 0;
             [self randomGen];
         }
         
@@ -850,6 +891,8 @@
         }
         
         currentScoreCounter.text = [NSString stringWithFormat:@"%d",score];
+        percentageDoughnut.percentage = 0;
+        percentageDoughnut.animationDuration = 0;
         [self randomGen];
         [StretchID play];
         
@@ -882,50 +925,50 @@
 - (void) sounds{
     
     //Flick it sound
-
-        NSString *Boing = [[NSBundle mainBundle]pathForResource:@"Cartoon_Boing" ofType:@"mp3"];
-        BoingSoundID = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL fileURLWithPath:Boing] error:NULL];
-        //BoingSoundID.delegate = self;
-        BoingSoundID.volume = 0.3;
-
-   //Pull it sound
+    
+    NSString *Boing = [[NSBundle mainBundle]pathForResource:@"Cartoon_Boing" ofType:@"mp3"];
+    BoingSoundID = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL fileURLWithPath:Boing] error:NULL];
+    //BoingSoundID.delegate = self;
+    BoingSoundID.volume = 0.3;
+    
+    //Pull it sound
     NSString *SlideWhistle = [[NSBundle mainBundle]pathForResource:@"Slide_Whistle" ofType:@"wav"];
     SlideWhistleID = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL fileURLWithPath:SlideWhistle] error:NULL];
     //SlideWhistleID.delegate = self;
     SlideWhistleID.volume = 0.3;
-
-   //Spin it sound
+    
+    //Spin it sound
     NSString *Gear = [[NSBundle mainBundle]pathForResource:@"gear" ofType:@"mp3"];
     GearID = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL fileURLWithPath:Gear] error:NULL];
     //GearID.delegate = self;
     GearID.volume = 0.3;
-
-   //Stretch it sound
+    
+    //Stretch it sound
     NSString *Stretch = [[NSBundle mainBundle]pathForResource:@"stretch" ofType:@"mp3"];
     StretchID = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL fileURLWithPath:Stretch] error:NULL];
     //StretchID.delegate = self;
     StretchID.volume = 0.6;
-
-   //Bopit sound
+    
+    //Bopit sound
     NSString *Bopit = [[NSBundle mainBundle]pathForResource:@"bopit" ofType:@"wav"];
     BopitID = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL fileURLWithPath:Bopit] error:NULL];
     //BopitID.delegate = self;
     BopitID.volume = 0.3;
-
-   //Failed sound
+    
+    //Failed sound
     NSString *Failed = [[NSBundle mainBundle]pathForResource:@"failed" ofType:@"wav"];
     FailedID = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL fileURLWithPath:Failed] error:NULL];
     //FailedID.delegate = self;
     FailedID.volume = 0.3;
-   
+    
     
     
     //Background music
-  
-
-        NSString *sound = [[NSBundle mainBundle]pathForResource:@"backgroundbeat" ofType:@"mp3"];
-        audioplayer = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL fileURLWithPath:sound] error:NULL];
-
+    
+    
+    NSString *sound = [[NSBundle mainBundle]pathForResource:@"backgroundbeat" ofType:@"mp3"];
+    audioplayer = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL fileURLWithPath:sound] error:NULL];
+    
     //audioplayer.delegate = self;
     audioplayer.numberOfLoops = -1;
     audioplayer.volume = 0.3;
