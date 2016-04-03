@@ -52,6 +52,12 @@
     UIImage *spinitText;
     UIImage *flickitText;
     
+    UIImage *orangeText;
+    UIImage *blueText;
+    UIImage *yellowText;
+    UIImage *greenText;
+    UIImage *whiteText;
+    
     UILabel *bopstats;
     UILabel *stretchstats;
     UILabel *flickstats;
@@ -250,6 +256,15 @@
     stretchitText = [UIImage imageNamed:@"strechitText.png"];
     spinitText = [UIImage imageNamed:@"spinitText.png"];
     flickitText = [UIImage imageNamed:@"flickitText.png"];
+    orangeText= [UIImage imageNamed:@"ORANGE.png"];
+    blueText= [UIImage imageNamed:@"BLUE.png"];
+    yellowText= [UIImage imageNamed:@"YELLOW.png"];
+    greenText= [UIImage imageNamed:@"GREEN.png"];
+    whiteText= [UIImage imageNamed:@"WHITE.png"];
+    
+    
+    
+    
     
     //Progress Bar
     percentageDoughnut = [[MCPercentageDoughnutView alloc] initWithFrame:CGRectMake(342, 155, 348, 348)];
@@ -517,8 +532,12 @@
 //Generates random number
 - (void) randomGen {
     if (isGameOver != YES) {
-        random = arc4random_uniform(6);
-        
+        if (score >= 30) {
+            random = arc4random_uniform(11);
+        }
+        else{
+            random = arc4random_uniform(6);
+        }
         if (random == 0){
             random++;
         }
@@ -543,6 +562,27 @@
             gameStatus.image = flickitText;
             
         }
+        else if (random == 6) {
+            gameStatus.image = orangeText;
+            
+        }
+        else if (random == 7) {
+            gameStatus.image = blueText;
+            
+        }
+        else if (random == 8) {
+            gameStatus.image = greenText;
+            
+        }
+        else if (random == 9) {
+            gameStatus.image = yellowText;
+            
+        }
+        else if (random == 10) {
+            gameStatus.image = whiteText;
+            
+        }
+        
         [self AnimateGameScreen];
     }
     
@@ -597,6 +637,7 @@
     scoreScreen.userInteractionEnabled = YES;
     UIImage *gameOverText = [UIImage imageNamed:@"gameOver.png"];
     gameStatus.image = gameOverText;
+    [self AnimateGameScreen];
     speed = 6;
     counter = 0;
     [myTimer invalidate];
@@ -662,7 +703,7 @@
     
     [self overlayAnimation];
     
-    x = 460; y = 80;
+    x = 475; y = 80;
     [self FlickitAnimation];
     x = 539; y = 680;
     [self PullitAnimation];
@@ -673,7 +714,7 @@
     x = 820; y = 330;
     [self PinchitAnimation];
     
-    waitTime = 0.7;
+    waitTime = 0.85;
     [self ProgressBarAnimation];
     waitTime = 0.1;
     
@@ -692,7 +733,7 @@
     //Set game logic
     score = 0;
     currentScoreCounter.text = @"0";
-    currentScoreLabel.text = @"LETS START EASY";
+    currentScoreLabel.text = @"LET'S START EASY";
     [myTimer invalidate];
     [self randomGen];
     
@@ -727,7 +768,7 @@
     
     //Handle game logic
     if(isGameOver == NO){
-        if (random != 2) {
+        if (random != 2 && random != 7) {
             [self gameFailed];
         }
         else {
@@ -749,20 +790,38 @@
     //AudioServicesPlaySystemSound(BoingSoundID);
     [BoingSoundID play];
     
+    POPSpringAnimation *rotationAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerRotation];
+    rotationAnimation.toValue = @(0.45);
+    [flick.layer pop_addAnimation:rotationAnimation forKey:@"rotationAnimation"];
+    rotationAnimation.delegate = self;
     
-    [UIView animateWithDuration:0.15f delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        [flick setTransform:CGAffineTransformRotate(flick.transform, M_PI/5)];
-    }completion:^(BOOL finished){
-    }];
-    [UIView animateWithDuration:0.15f delay:0.15 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        [flick setTransform:CGAffineTransformRotate(flick.transform, -M_PI/5)];
-    }completion:^(BOOL finished){
-    }];
+    POPSpringAnimation *rotationAnimationBack = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerRotation];
+    rotationAnimationBack.beginTime = 0.5;
+    rotationAnimationBack.fromValue = @(0.45);
+    rotationAnimationBack.toValue = @(0);
+    rotationAnimationBack.springSpeed = 7;
+    rotationAnimationBack.springBounciness = 20.f;
+    [flick.layer pop_addAnimation:rotationAnimationBack forKey:@"rotationAnimationBack"];
+    rotationAnimationBack.delegate = self;
+    
+
+//    [UIView animateWithDuration:0.15f delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+//        //[flick setTransform:CGAffineTransformRotate(flick.transform, M_PI/5)];
+//        rotationAnimation.toValue = @(0.63);
+//    }completion:^(BOOL finished){
+//    }];
+//    [UIView animateWithDuration:0.15f delay:0.15 options:UIViewAnimationOptionCurveEaseOut animations:^{
+//        //[flick setTransform:CGAffineTransformRotate(flick.transform, -M_PI/5)];
+//        rotationAnimation.toValue = @(0);
+//        rotationAnimation.springBounciness = 20.f;
+//        
+//    }completion:^(BOOL finished){
+//    }];
     
     
     //Handle game logic
     if(isGameOver == NO){
-        if (random != 5) {
+        if (random != 5 && random != 8) {
             [self gameFailed];
         }
         else {
@@ -805,7 +864,7 @@
             //Handle game logic
             
             if(isGameOver == NO){
-                if (random != 1) {
+                if (random != 1 && random != 6) {
                     
                     [self gameFailed];
                 }
@@ -846,7 +905,7 @@
     
     //Handle game logic
     if(isGameOver == NO){
-        if (random != 3) {
+        if (random != 3 && random != 10) {
             [self gameFailed];
         }
         else {
@@ -866,7 +925,7 @@
     
     //Check game logic
     if(isGameOver == NO){
-        if (random != 4) {
+        if (random != 4 && random != 9) {
             [self gameFailed];
         }
         else {
@@ -901,14 +960,27 @@
     
 }
 - (void) AnimateGameScreen{
+    
+    POPBasicAnimation *flashAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPLayerOpacity];
+    flashAnimation.fromValue = @(1);
+    flashAnimation.toValue = @(0.1);
+    flashAnimation.autoreverses = YES;
+    [flashAnimation setCompletionBlock:^(POPAnimation *animation, BOOL finished) {
+        bopit.userInteractionEnabled = YES;
+    }];
+    [gameStatus.layer pop_addAnimation:flashAnimation forKey:@"flashAnimation"];
+    flashAnimation.delegate = self;
+    
     POPSpringAnimation *animateGameScreen = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
-    animateGameScreen.velocity = @400;
-    animateGameScreen.springBounciness = 5.f;
+    animateGameScreen.velocity = @600;
+    animateGameScreen.springBounciness = 8.f;
     [animateGameScreen setCompletionBlock:^(POPAnimation *animation, BOOL finished) {
         bopit.userInteractionEnabled = YES;
     }];
     [gameStatus.layer pop_addAnimation:animateGameScreen forKey:@"positionAnimation"];
     animateGameScreen.delegate = self;
+    
+    
 }
 - (void) LayerOpacity{
     layerOpacity = [POPBasicAnimation animationWithPropertyNamed:kPOPLayerOpacity];
