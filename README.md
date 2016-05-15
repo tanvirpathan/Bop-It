@@ -11,6 +11,8 @@ The commands include:
 
 As the score gets higher, the allowed reaction time period becomes shorter and only the best can truly become legendary!
 
-## Game Screen
-
+## Game in action!
+Click on the image below to see the game in action.
 [![BOP-IT!](http://imgur.com/4YNTI3N.png)](https://youtu.be/l5ExDldjtrY?t=0s "BOP-IT!")
+
+
